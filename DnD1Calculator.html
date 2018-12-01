@@ -3,8 +3,45 @@
 <title>D&D1 Calculator</title>
 </head>
 <body>
-<p>Result:<br/><span id='result'></span></p>
+<p>Probability that <input type='number' id='1_number_of_dice' value='1'/>d<input type='number' id='1_dice_sides' value='6' /><br />
+is <select id='1_type'>
+	<option value='=='>exactly (==)</option>
+	<option value='>='>at least (>=)</option>
+	<option value='<='>at most (<=)</option>
+</select> <input type='number' id='1_total' value='1'/><br />
+<input type='number' id='1_times' value='1' /> times.<br />
+<button onclick='calculate_probability_1();'>Calculate</button></p>
+
+<p>Result: <span id='1_result'></span></p>
+
+<hr />
+
 <script>
+function calculate_probability_1() {
+	var number_of_dice = document.getElementById('1_number_of_dice').value;
+	var dice_sides = document.getElementById('1_dice_sides').value;
+	var total = document.getElementById('1_total').value;
+	var times = document.getElementById('1_times').value;
+	var result = 0;
+	switch(document.getElementById('1_type').value) {
+		case '>=':
+			result = dice_prob_at_least(total, number_of_dice, dice_sides);
+			break;
+		case '<=':
+			result = dice_prob_at_most(total, number_of_dice, dice_sides);
+			break;
+		default:
+			result = dice_prob(total, number_of_dice, dice_sides);
+			break;
+	}
+	
+	document.getElementById('1_result').innerHTML = percentage(Math.pow(result, times));
+}
+
+function percentage(num, decimals=2) {
+	return (num*100).toFixed(decimals) + '%';
+}
+
 var factorial_cache = [1, 1];
 function factorial(n) {
 	if (n < factorial_cache.length) {
@@ -53,7 +90,7 @@ function dice_prob_at_most(p, n, s=6) {
 	return sum;
 }
 
-var number_of_dice = 1;
+/*var number_of_dice = 1;
 var dice_sides = 6;
 for (var k = 1; k <= number_of_dice * dice_sides; k++) {
 	document.getElementById('result').innerHTML += k + ' ' + (dice_prob(k, number_of_dice, dice_sides) * 100).toFixed(2) + '%<br/>';
@@ -65,7 +102,7 @@ for (var k = 1; k <= number_of_dice * dice_sides; k++) {
 document.getElementById('result').innerHTML += '<br/>At most<br/>';
 for (var k = 1; k <= number_of_dice * dice_sides; k++) {
 	document.getElementById('result').innerHTML += k + ' ' + (dice_prob_at_most(k, number_of_dice, dice_sides) * 100).toFixed(2) + '%<br/>';
-}
+}*/
 </script>
 </body>
 </html>
