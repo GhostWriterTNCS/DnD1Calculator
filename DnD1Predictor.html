@@ -2,6 +2,10 @@
 <head>
 <title>D&D1 Predictor</title>
 <style>
+td table {
+    margin-right: 10px;
+}
+
 tr {
     vertical-align: top;
 }
@@ -57,14 +61,18 @@ input[type=number] {
 		<th>B</th>
 	</tr><tr>
 		<td>
-			Weapon: <input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /><br />
-			STR: <input type='number' id='str' value='0'/><br />
-			TAC0: <input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onclick='document.querySelector("#turns_to_defeat").querySelector("#tac0").disabled=this.checked;' />Always hit</label><br/>
+			<table><tbody>
+			<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /></td></tr>
+			<tr><td>STR</td><td><input type='number' id='str' value='0'/></td></tr>
+			<tr><td>TAC0</td><td><input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onclick='document.querySelector("#turns_to_defeat").querySelector("#tac0").disabled=this.checked;' />Always hit</label><br/>
+			</tbody></table>
 		</td>
 		<td>
-			HP: <input type='number' id='hp' value='20'/><br />
-			CON: <input type='number' id='con' value='0'/><br />
-			AC: <input type='number' id='ac' value='5'/><br />		
+			<table><tbody>
+			<tr><td>HP</td><td><input type='number' id='hp' value='20'/></td></tr>
+			<tr><td>CON</td><td><input type='number' id='con' value='0'/></td></tr>
+			<tr><td>AC</td><td><input type='number' id='ac' value='5'/></td></tr>		
+			</tbody></table>
 		</td>
 	</tr>
 	</tbody>
@@ -84,16 +92,20 @@ input[type=number] {
 		<th>Platoon</th>
 	</tr><tr>
 		<td>
-			Weapon: <input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /><br />
-			STR: <input type='number' id='str' value='0'/><br />
-			TAC0: <input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onclick='document.querySelector("#attack_on_platoon").querySelector("#tac0").disabled=this.checked;' />Always hit</label><br/>
+			<table><tbody>
+			<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /></td></tr>
+			<tr><td>STR</td><td><input type='number' id='str' value='0'/></td></tr>
+			<tr><td>TAC0</td><td><input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onclick='document.querySelector("#attack_on_platoon").querySelector("#tac0").disabled=this.checked;' />Always hit</label></td></tr>
+			</tbody></table>
 		</td>
 		<td>
-			Level: <input type='number' id='level' value='5'/><br />
-			CON: <input type='number' id='con' value='0'/><br />
-			AC: <input type='number' id='ac' value='5'/><br />
-			Saving throw: <input type='number' id='saving_throw' value='10'/><br />
-			Protection: <input type='number' id='protection' value='0'/><br />
+			<table><tbody>
+			<tr><td>Level</td><td><input type='number' id='level' value='5'/></td></tr>
+			<tr><td>CON</td><td><input type='number' id='con' value='0'/></td></tr>
+			<tr><td>AC</td><td><input type='number' id='ac' value='5'/></td></tr>
+			<tr><td>Saving throw</td><td><input type='number' id='saving_throw' value='10'/></td></tr>
+			<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
+			</tbody></table>
 		</td>
 	</tr>
 	</tbody>
