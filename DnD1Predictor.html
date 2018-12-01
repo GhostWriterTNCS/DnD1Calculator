@@ -1,6 +1,20 @@
 ﻿<html>
 <head>
 <title>D&D1 Predictor</title>
+<style>
+tr {
+    vertical-align: top;
+}
+label {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+</style>
 </head>
 <body>
 <p>Probability that <input type='number' id='1_number_of_dice' value='1'/>d<input type='number' id='1_dice_sides' value='6' /><br />
@@ -10,7 +24,7 @@ is <select id='1_type'>
 	<option value='<='>at most (<=)</option>
 </select> <input type='number' id='1_total' value='1'/><br />
 <input type='number' id='1_times' value='1' /> times.<br />
-<button onclick='calculate_probability_1();'>Calculate</button></p>
+<button onclick='calculate_1();'>Calculate</button></p>
 
 <p>Result: <span id='1_result'></span></p>
 
@@ -18,14 +32,39 @@ is <select id='1_type'>
 
 Expected damage for <input type='number' id='2_number_of_dice' value='1'/>d<input type='number' id='2_dice_sides' value='6' /><br />
 in <input type='number' id='2_hits' value='1'/> hits.<br />
-<button onclick='calculate_probability_2();'>Calculate</button></p>
+<button onclick='calculate_2();'>Calculate</button></p>
 
 <p>Result: <span id='2_result'></span></p>
 
 <hr />
 
+<p>How many turns for A to defeat B</p>
+<table>
+<tbody>
+<tr>
+	<th>A</th>
+	<th>B</th>
+</tr><tr>
+	<td>
+		Weapon: <input type='number' id='3_weapon_number_of_dice' value='1'/>d<input type='number' id='3_weapon_dice_sides' value='6' /><br />
+		STR: <input type='number' id='3_str' value='0'/><br />
+		TAC0: <input type='number' id='3_tac0' value='5'/> <label><input type='checkbox' id='3_always_hit' onclick='document.getElementById("3_tac0").disabled=this.checked;' />Always hit</label><br/>
+	</td>
+	<td>
+		HP: <input type='number' id='3_hp' value='20'/><br />
+		AC: <input type='number' id='3_ac' value='5'/><br />
+		
+	</td>
+</tr>
+</tbody>
+</table>
+<button onclick='calculate_3();'>Calculate</button></p>
+
+<p>Damage per turn: <span id='3_damage'></span></p>
+<p>Result: <span id='3_result'></span></p>
+
 <script>
-function calculate_probability_1() {
+function calculate_1() {
 	var number_of_dice = document.getElementById('1_number_of_dice').value;
 	var dice_sides = document.getElementById('1_dice_sides').value;
 	var total = document.getElementById('1_total').value;
@@ -45,15 +84,37 @@ function calculate_probability_1() {
 	document.getElementById('1_result').innerHTML = percentage(Math.pow(result, times));
 }
 
-function calculate_probability_2() {
+function calculate_2() {
 	var number_of_dice = document.getElementById('2_number_of_dice').value;
 	var dice_sides = document.getElementById('2_dice_sides').value;
 	var hits = document.getElementById('2_hits').value;
-	document.getElementById('2_result').innerHTML = number_of_dice * (dice_sides / 2 + 0.5) * hits;
+	document.getElementById('2_result').innerHTML = expected_result(number_of_dice, dice_sides, hits);
+}
+
+function calculate_3() {
+	var weapon_number_of_dice = document.getElementById('3_weapon_number_of_dice').value;
+	var weapon_dice_sides = document.getElementById('3_weapon_dice_sides').value;
+	var str = document.getElementById('3_str').value;
+	var tac0 = document.getElementById('3_tac0').value;
+	var hp = document.getElementById('3_hp').value;
+	var ac = document.getElementById('3_ac').value;
+	
+	var ac_result = tac0 - ac;
+	if(document.getElementById('3_always_hit').checked) {
+		ac_result = 0;
+	}
+	var damage_per_turn = (expected_result(weapon_number_of_dice, weapon_dice_sides) + str) * dice_prob_at_least(ac_result, 1, 20);
+	document.getElementById('3_damage').innerHTML = damage_per_turn;
+	document.getElementById('3_result').innerHTML = hp / damage_per_turn;
 }
 
 function percentage(num, decimals=2) {
 	return (num*100).toFixed(decimals) + '%';
+}
+
+// Calculates the expected damage for *n* dice with *s* sides after *h* hits.
+function expected_result(n, s, h=1) {
+	return n * (s / 2 + 0.5) * h;
 }
 
 var factorial_cache = [1, 1];
