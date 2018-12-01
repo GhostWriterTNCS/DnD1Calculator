@@ -70,8 +70,10 @@ input[type=number] {
 		<td>
 			<table><tbody>
 			<tr><td>HP</td><td><input type='number' id='hp' value='20'/></td></tr>
-			<tr><td>CON</td><td><input type='number' id='con' value='0'/></td></tr>
+			<!--<tr><td>CON</td><td><input type='number' id='con' value='0'/></td></tr>-->
 			<tr><td>AC</td><td><input type='number' id='ac' value='5'/></td></tr>		
+			<tr><td>Saving throw</td><td><input type='number' id='saving_throw' value='10'/> <label><input type='checkbox' id='no_saving_throw' onclick='document.querySelector("#turns_to_defeat").querySelector("#saving_throw").disabled=this.checked;' />No saving throw</label></td></tr>
+			<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
 			</tbody></table>
 		</td>
 	</tr>
@@ -84,7 +86,7 @@ input[type=number] {
 </div>
 
 <div id='attack_on_platoon' class='container'>
-	<p>How many survivors after attack on a platoon of <input type='number' id='units' value='1'/> units?</p>
+	<p>How many survivors after an attack on a platoon of <input type='number' id='units' value='1'/> units?</p>
 	<table>
 	<tbody>
 	<tr>
@@ -154,14 +156,20 @@ function calculate_turns_to_defeat() {
 	var tac0 = container.querySelector('#tac0').value;
 	
 	var hp = container.querySelector('#hp').value;
-	var con = container.querySelector('#con').value;
+	//var con = container.querySelector('#con').value;
 	var ac = container.querySelector('#ac').value;
+	var protection = container.querySelector('#protection').value;
+	var saving_throw = container.querySelector('#saving_throw').value - protection;
 	var ac_result = tac0 - ac;
 	if(container.querySelector('#always_hit').checked) {
 		ac_result = 0;
 	}
 
 	var damage_per_turn = (expected_result(weapon_number_of_dice, weapon_dice_sides) + str) * dice_prob_at_least(ac_result, 1, 20);
+	if(!container.querySelector('#no_saving_throw').checked) {
+		var saving_throw_result = dice_prob_at_least(saving_throw, 1, 20);
+		damage_per_turn = damage_per_turn * (1 - saving_throw_result) + damage_per_turn / 2 * saving_throw_result;
+	}
 	container.querySelector('#damage').innerHTML = damage_per_turn;
 	container.querySelector('#result').innerHTML = hp / damage_per_turn;
 }
@@ -190,7 +198,7 @@ function calculate_attack_on_platoon() {
 	damage_per_unit = damage_per_unit * (1 - saving_throw_result) + damage_per_unit / 2 * saving_throw_result;
 	container.querySelector('#damage').innerHTML = damage_per_unit;
 	var prob_at_least = dice_prob_at_least(damage_per_unit - con * level, level, 8);
-	container.querySelector('#result').innerHTML = units * prob_at_least + ' units (' + percentage(prob_at_least) + ')';
+	container.querySelector('#result').innerHTML = units * prob_at_least + ' survived units (' + percentage(prob_at_least) + ')';
 }
 
 function percentage(num, decimals=2) {
