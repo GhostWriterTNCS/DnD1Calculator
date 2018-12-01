@@ -5,6 +5,7 @@
 tr {
     vertical-align: top;
 }
+
 label {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -14,63 +15,71 @@ label {
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
+
+.container {
+    border-bottom: 1px solid;
+    margin-bottom: 1em;
+}
 </style>
 </head>
 <body>
-<p>Probability that <input type='number' id='1_number_of_dice' value='1'/>d<input type='number' id='1_dice_sides' value='6' /><br />
-is <select id='1_type'>
-	<option value='=='>exactly (==)</option>
-	<option value='>='>at least (>=)</option>
-	<option value='<='>at most (<=)</option>
-</select> <input type='number' id='1_total' value='1'/><br />
-<input type='number' id='1_times' value='1' /> times.<br />
-<button onclick='calculate_1();'>Calculate</button></p>
+<div id='probability' class='container'>
+	<p>Probability that <input type='number' id='number_of_dice' value='1'/>d<input type='number' id='dice_sides' value='6' /><br />
+	is <select id='type'>
+		<option value='=='>exactly (==)</option>
+		<option value='>='>at least (>=)</option>
+		<option value='<='>at most (<=)</option>
+	</select> <input type='number' id='total' value='1'/><br />
+	<input type='number' id='times' value='1' /> times.<br />
+	<button onclick='calculate_1();'>Calculate</button></p>
 
-<p>Result: <span id='1_result'></span></p>
+	<p>Result: <span id='result'></span></p>
+</div>
 
-<hr />
+<div id='expected_damage' class='container'>
+	Expected damage for <input type='number' id='number_of_dice' value='1'/>d<input type='number' id='dice_sides' value='6' /><br />
+	in <input type='number' id='hits' value='1'/> hits.<br />
+	<button onclick='calculate_2();'>Calculate</button></p>
 
-Expected damage for <input type='number' id='2_number_of_dice' value='1'/>d<input type='number' id='2_dice_sides' value='6' /><br />
-in <input type='number' id='2_hits' value='1'/> hits.<br />
-<button onclick='calculate_2();'>Calculate</button></p>
+	<p>Result: <span id='result'></span></p>
+</div>
 
-<p>Result: <span id='2_result'></span></p>
+<div id='turns_to_defeat' class='container'>
+	<p>How many turns for A to defeat B</p>
+	<table>
+	<tbody>
+	<tr>
+		<th>A</th>
+		<th>B</th>
+	</tr><tr>
+		<td>
+			Weapon: <input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /><br />
+			STR: <input type='number' id='str' value='0'/><br />
+			TAC0: <input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onclick='document.querySelector("#turns_to_defeat").querySelector("#tac0").disabled=this.checked;' />Always hit</label><br/>
+		</td>
+		<td>
+			HP: <input type='number' id='hp' value='20'/><br />
+			AC: <input type='number' id='ac' value='5'/><br />
+			
+		</td>
+	</tr>
+	</tbody>
+	</table>
+	<button onclick='calculate_3();'>Calculate</button></p>
 
-<hr />
-
-<p>How many turns for A to defeat B</p>
-<table>
-<tbody>
-<tr>
-	<th>A</th>
-	<th>B</th>
-</tr><tr>
-	<td>
-		Weapon: <input type='number' id='3_weapon_number_of_dice' value='1'/>d<input type='number' id='3_weapon_dice_sides' value='6' /><br />
-		STR: <input type='number' id='3_str' value='0'/><br />
-		TAC0: <input type='number' id='3_tac0' value='5'/> <label><input type='checkbox' id='3_always_hit' onclick='document.getElementById("3_tac0").disabled=this.checked;' />Always hit</label><br/>
-	</td>
-	<td>
-		HP: <input type='number' id='3_hp' value='20'/><br />
-		AC: <input type='number' id='3_ac' value='5'/><br />
-		
-	</td>
-</tr>
-</tbody>
-</table>
-<button onclick='calculate_3();'>Calculate</button></p>
-
-<p>Damage per turn: <span id='3_damage'></span></p>
-<p>Result: <span id='3_result'></span></p>
+	<p>Damage per turn: <span id='damage'></span></p>
+	<p>Result: <span id='result'></span></p>
+</div>
 
 <script>
 function calculate_1() {
-	var number_of_dice = document.getElementById('1_number_of_dice').value;
-	var dice_sides = document.getElementById('1_dice_sides').value;
-	var total = document.getElementById('1_total').value;
-	var times = document.getElementById('1_times').value;
+	var container = document.querySelector('#probability');
+	var number_of_dice = container.querySelector('#number_of_dice').value;
+	var dice_sides = container.querySelector('#dice_sides').value;
+	var total = container.querySelector('#total').value;
+	var times = container.querySelector('#times').value;
 	var result = 0;
-	switch(document.getElementById('1_type').value) {
+	switch(container.querySelector('#type').value) {
 		case '>=':
 			result = dice_prob_at_least(total, number_of_dice, dice_sides);
 			break;
@@ -81,31 +90,33 @@ function calculate_1() {
 			result = dice_prob(total, number_of_dice, dice_sides);
 			break;
 	}
-	document.getElementById('1_result').innerHTML = percentage(Math.pow(result, times));
+	container.querySelector('#result').innerHTML = percentage(Math.pow(result, times));
 }
 
 function calculate_2() {
-	var number_of_dice = document.getElementById('2_number_of_dice').value;
-	var dice_sides = document.getElementById('2_dice_sides').value;
-	var hits = document.getElementById('2_hits').value;
-	document.getElementById('2_result').innerHTML = expected_result(number_of_dice, dice_sides, hits);
+	var container = document.querySelector('#expected_damage');
+	var number_of_dice = container.querySelector('#number_of_dice').value;
+	var dice_sides = container.querySelector('#dice_sides').value;
+	var hits = container.querySelector('#hits').value;
+	container.querySelector('#result').innerHTML = expected_result(number_of_dice, dice_sides, hits);
 }
 
 function calculate_3() {
-	var weapon_number_of_dice = document.getElementById('3_weapon_number_of_dice').value;
-	var weapon_dice_sides = document.getElementById('3_weapon_dice_sides').value;
-	var str = document.getElementById('3_str').value;
-	var tac0 = document.getElementById('3_tac0').value;
-	var hp = document.getElementById('3_hp').value;
-	var ac = document.getElementById('3_ac').value;
+	var container = document.querySelector('#turns_to_defeat');
+	var weapon_number_of_dice = container.querySelector('#weapon_number_of_dice').value;
+	var weapon_dice_sides = container.querySelector('#weapon_dice_sides').value;
+	var str = container.querySelector('#str').value;
+	var tac0 = container.querySelector('#tac0').value;
+	var hp = container.querySelector('#hp').value;
+	var ac = container.querySelector('#ac').value;
 	
 	var ac_result = tac0 - ac;
-	if(document.getElementById('3_always_hit').checked) {
+	if(container.querySelector('#always_hit').checked) {
 		ac_result = 0;
 	}
 	var damage_per_turn = (expected_result(weapon_number_of_dice, weapon_dice_sides) + str) * dice_prob_at_least(ac_result, 1, 20);
-	document.getElementById('3_damage').innerHTML = damage_per_turn;
-	document.getElementById('3_result').innerHTML = hp / damage_per_turn;
+	container.querySelector('#damage').innerHTML = damage_per_turn;
+	container.querySelector('#result').innerHTML = hp / damage_per_turn;
 }
 
 function percentage(num, decimals=2) {
@@ -168,15 +179,15 @@ function dice_prob_at_most(p, n, s=6) {
 /*var number_of_dice = 1;
 var dice_sides = 6;
 for (var k = 1; k <= number_of_dice * dice_sides; k++) {
-	document.getElementById('result').innerHTML += k + ' ' + (dice_prob(k, number_of_dice, dice_sides) * 100).toFixed(2) + '%<br/>';
+	document.getcontainerentById('result').innerHTML += k + ' ' + (dice_prob(k, number_of_dice, dice_sides) * 100).toFixed(2) + '%<br/>';
 }
-document.getElementById('result').innerHTML += '<br/>At least:<br/>';
+document.getcontainerentById('result').innerHTML += '<br/>At least:<br/>';
 for (var k = 1; k <= number_of_dice * dice_sides; k++) {
-	document.getElementById('result').innerHTML += k + ' ' + (dice_prob_at_least(k, number_of_dice, dice_sides) * 100).toFixed(2) + '%<br/>';
+	document.getcontainerentById('result').innerHTML += k + ' ' + (dice_prob_at_least(k, number_of_dice, dice_sides) * 100).toFixed(2) + '%<br/>';
 }
-document.getElementById('result').innerHTML += '<br/>At most<br/>';
+document.getcontainerentById('result').innerHTML += '<br/>At most<br/>';
 for (var k = 1; k <= number_of_dice * dice_sides; k++) {
-	document.getElementById('result').innerHTML += k + ' ' + (dice_prob_at_most(k, number_of_dice, dice_sides) * 100).toFixed(2) + '%<br/>';
+	document.getcontainerentById('result').innerHTML += k + ' ' + (dice_prob_at_most(k, number_of_dice, dice_sides) * 100).toFixed(2) + '%<br/>';
 }*/
 </script>
 </body>
