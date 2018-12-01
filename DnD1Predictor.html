@@ -16,6 +16,14 @@ is <select id='1_type'>
 
 <hr />
 
+Expected damage for <input type='number' id='2_number_of_dice' value='1'/>d<input type='number' id='2_dice_sides' value='6' /><br />
+in <input type='number' id='2_hits' value='1'/> hits.<br />
+<button onclick='calculate_probability_2();'>Calculate</button></p>
+
+<p>Result: <span id='2_result'></span></p>
+
+<hr />
+
 <script>
 function calculate_probability_1() {
 	var number_of_dice = document.getElementById('1_number_of_dice').value;
@@ -34,8 +42,14 @@ function calculate_probability_1() {
 			result = dice_prob(total, number_of_dice, dice_sides);
 			break;
 	}
-	
 	document.getElementById('1_result').innerHTML = percentage(Math.pow(result, times));
+}
+
+function calculate_probability_2() {
+	var number_of_dice = document.getElementById('2_number_of_dice').value;
+	var dice_sides = document.getElementById('2_dice_sides').value;
+	var hits = document.getElementById('2_hits').value;
+	document.getElementById('2_result').innerHTML = number_of_dice * (dice_sides / 2 + 0.5) * hits;
 }
 
 function percentage(num, decimals=2) {
