@@ -2,7 +2,7 @@
 <head>
 <title>D&D1 Predictor</title>
 <style>
-.spaced td {
+td {
     padding-right: 10px;
 }
 
@@ -32,30 +32,37 @@ input[type=number] {
 </head>
 <body>
 <div id='probability' class='container'>
-	<p>Probability that <input type='number' id='number_of_dice' value='1'/>d<input type='number' id='dice_sides' value='6' /><br />
-	is <select id='type'>
-		<option value='=='>exactly (==)</option>
-		<option value='>='>at least (>=)</option>
-		<option value='<='>at most (<=)</option>
-	</select> <input type='number' id='total' value='1'/><br />
-	<input type='number' id='times' value='1' /> times.<br />
+	<h1>Probability</h1> 
+	<table><tbody>
+		<tr><td>Dice</td><td><input type='number' id='number_of_dice' value='1'/>d<input type='number' id='dice_sides' value='6' /></td></tr>
+		<tr><td>
+			<select id='type'>
+			<option value='=='>exactly (==)</option>
+			<option value='>='>at least (>=)</option>
+			<option value='<='>at most (<=)</option>
+			</select>
+		</td><td><input type='number' id='total' value='1'/></td></tr>
+		<tr><td>Times</td><td><input type='number' id='times' value='1' /></td></tr>
+	</tbody></table>
 	<p><button onclick='calculate_probability();'>Calculate</button></p>
 
 	<p>Result: <span id='result'></span></p>
 </div>
 
 <div id='expected_damage' class='container'>
-	Expected damage for <input type='number' id='number_of_dice' value='1'/>d<input type='number' id='dice_sides' value='6' /><br />
-	in <input type='number' id='hits' value='1'/> hits.<br />
+	<h1>Expected damage</h1>
+	<table><tbody>
+		<tr><td>Dice</td><td><input type='number' id='number_of_dice' value='1'/>d<input type='number' id='dice_sides' value='6' /></td></tr>
+		<tr><td>Hits</td><td><input type='number' id='hits' value='1' /></td></tr>
+	</tbody></table>
 	<p><button onclick='calculate_expected_damage();'>Calculate</button></p>
 
 	<p>Result: <span id='result'></span></p>
 </div>
 
 <div id='turns_to_defeat' class='container'>
-	<p>A vs B</p>
-	<table class='spaced'>
-	<tbody>
+	<h1>A vs B</h1>
+	<table><tbody>
 	<tr>
 		<th>A</th>
 		<th>B</th>
@@ -71,7 +78,11 @@ input[type=number] {
 				<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
 				<tr><th>Bonus</th><td></td></tr>
 				<tr><td>STR</td><td><input type='number' id='str' min='-2' max='2' value='0'/> bonus to Hit rolls, damage rolls, opening doors</td></tr>
-				<tr><td>DEX</td><td><input type='number' id='dex' min='-2' max='2' value='0'/> bonus to missile Hit rolls, Armor Class</td></tr>
+				<tr><td>INT</td><td><input type='number' id='int' min='-2' max='2' value='0'/> bonus to language</td></tr>
+				<tr><td>WIS</td><td><input type='number' id='wis' min='-2' max='2' value='0'/> bonus to Saving throws against magic</td></tr>
+				<tr><td>DEX</td><td><input type='number' id='dex' min='-2' max='2' value='0'/> bonus to missile fire Hit rolls, Armor Class</td></tr>
+				<tr><td>CON</td><td><input type='number' id='con' min='-2' max='2' value='0'/> bonus to Hit point rolls</td></tr>
+				<tr><td>CHA</td><td><input type='number' id='cha' min='-2' max='2' value='0'/> bonus to reactions</td></tr>
 			</tbody></table>
 		</td>
 		<td>
@@ -85,16 +96,18 @@ input[type=number] {
 				<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
 				<tr><th>Bonus</th><td></td></tr>
 				<tr><td>STR</td><td><input type='number' id='str' min='-2' max='2' value='0'/> bonus to Hit rolls, damage rolls, opening doors</td></tr>
-				<tr><td>DEX</td><td><input type='number' id='dex' min='-2' max='2' value='0'/> bonus to missile Hit rolls, Armor Class</td></tr>
+				<tr><td>INT</td><td><input type='number' id='int' min='-2' max='2' value='0'/> bonus to language</td></tr>
+				<tr><td>WIS</td><td><input type='number' id='wis' min='-2' max='2' value='0'/> bonus to Saving throws against magic</td></tr>
+				<tr><td>DEX</td><td><input type='number' id='dex' min='-2' max='2' value='0'/> bonus to missile fire Hit rolls, Armor Class</td></tr>
+				<tr><td>CON</td><td><input type='number' id='con' min='-2' max='2' value='0'/> bonus to Hit point rolls</td></tr>
+				<tr><td>CHA</td><td><input type='number' id='cha' min='-2' max='2' value='0'/> bonus to reactions</td></tr>
 			</tbody></table>
 		</td>
 	</tr>
-	</tbody>
-	</table>
+	</tbody></table>
 	<p><button onclick='calculate_turns_to_defeat();'>Calculate</button></p>
 
-	<table class='spaced'>
-	<tbody>
+	<table><tbody>
 	<tr>
 		<th>A</th>
 		<th>B</th>
@@ -112,14 +125,13 @@ input[type=number] {
 			</div>
 		</td>
 	</tr>
-	</tbody>
-	</table>
+	</tbody></table>
 </div>
 
 <div id='attack_on_platoon' class='container'>
-	<p>How many survivors after an attack on a platoon of <input type='number' id='units' value='1'/> units?</p>
-	<table class='spaced'>
-	<tbody>
+	<h1>How many survivors?</h1>
+	<p>How many survivors after an attack on a platoon of <input type='number' id='units' value='1'/> units?<p>
+	<table><tbody>
 	<tr>
 		<th>Attack</th>
 		<th>Platoon</th>
@@ -127,22 +139,24 @@ input[type=number] {
 		<td>
 			<table><tbody>
 				<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /></td></tr>
-				<tr><td>STR</td><td><input type='number' id='str' min='-2' max='2' value='0'/> bonus to Hit rolls, damage rolls, opening doors</td></tr>
 				<tr><td>TAC0</td><td><input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onclick='document.querySelector("#attack_on_platoon").querySelector("#tac0").disabled=this.checked;' />Always hit</label></td></tr>
+				<tr><th>Bonus</th><td></td></tr>
+				<tr><td>STR</td><td><input type='number' id='str' min='-2' max='2' value='0'/> bonus to Hit rolls, damage rolls, opening doors</td></tr>
 			</tbody></table>
 		</td>
 		<td>
 			<table><tbody>
 				<tr><td>Level</td><td><input type='number' id='level' value='5'/></td></tr>
-				<tr><td>CON</td><td><input type='number' id='con' value='0'/> bonus to Hit point rolls</td></tr>
 				<tr><td>AC</td><td><input type='number' id='ac' max='9' value='5'/> chance to evade hits (lower is better)</td></tr>		
 				<tr><td>Saving throw</td><td><input type='number' id='saving_throw' value='10'/> <label><input type='checkbox' id='no_saving_throw' onclick='document.querySelector("#attack_on_platoon").querySelector("#saving_throw").disabled=this.checked;' />No saving throw</label></td></tr>
 				<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
+				<tr><th>Bonus</th><td></td></tr>
+				<tr><td>CON</td><td><input type='number' id='con' value='0'/> bonus to Hit point rolls</td></tr>
+				<tr><td>DEX</td><td><input type='number' id='dex' min='-2' max='2' value='0'/> bonus to missile Hit rolls, Armor Class</td></tr>
 			</tbody></table>
 		</td>
 	</tr>
-	</tbody>
-	</table>
+	</tbody></table>
 	<p><button onclick='calculate_attack_on_platoon();'>Calculate</button></p>
 
 	<p>Damage per unit: <span id='damage'></span></p>
@@ -152,10 +166,10 @@ input[type=number] {
 <script>
 function calculate_probability() {
 	var container = document.querySelector('#probability');
-	var number_of_dice = parseInt(container.querySelector('#number_of_dice').value);
-	var dice_sides = parseInt(container.querySelector('#dice_sides').value);
-	var total = parseInt(container.querySelector('#total').value);
-	var times = parseInt(container.querySelector('#times').value);
+	var number_of_dice = get_int(container, 'number_of_dice');
+	var dice_sides = get_int(container, 'dice_sides');
+	var total = get_int(container, 'total');
+	var times = get_int(container, 'times');
 	var result = 0;
 	switch(container.querySelector('#type').value) {
 		case '>=':
@@ -173,9 +187,9 @@ function calculate_probability() {
 
 function calculate_expected_damage() {
 	var container = document.querySelector('#expected_damage');
-	var number_of_dice = parseInt(container.querySelector('#number_of_dice').value);
-	var dice_sides = parseInt(container.querySelector('#dice_sides').value);
-	var hits = parseInt(container.querySelector('#hits').value);
+	var number_of_dice = get_int(container, 'number_of_dice');
+	var dice_sides = get_int(container, 'dice_sides');
+	var hits = get_int(container, 'hits');
 	container.querySelector('#result').innerHTML = expected_result(number_of_dice, dice_sides, hits);
 }
 
@@ -193,12 +207,12 @@ function calculate_turns_to_defeat() {
 	var container_A = container.querySelector('#A');
 	var weapon_number_of_dice_A = get_int(container_A, 'weapon_number_of_dice');
 	var weapon_dice_sides_A = get_int(container_A, 'weapon_dice_sides');
+	//var con_A = get_int(container_A, 'con');
 	var str_A = get_int(container_A, 'str');
 	var dex_A = get_int(container_A, 'dex');
 	var tac0_A = get_int(container_A, 'tac0');
 	
 	var hp_A = get_int(container_A, 'hp');
-	//var con_A = get_int(container_A, 'con');
 	var ac_A = get_int(container_A, 'ac');
 	var protection_A = get_int(container_A, 'protection');
 	var saving_throw_A = get_int(container_A, 'saving_throw') - protection_A;
@@ -208,12 +222,12 @@ function calculate_turns_to_defeat() {
 	var container_B = container.querySelector('#B');
 	var weapon_number_of_dice_B = get_int(container_B, 'weapon_number_of_dice');
 	var weapon_dice_sides_B = get_int(container_B, 'weapon_dice_sides');
+	//var con_B = get_int(container_B, 'con');
 	var str_B = get_int(container_B, 'str');
 	var dex_B = get_int(container_B, 'dex');
 	var tac0_B = get_int(container_B, 'tac0');
 	
 	var hp_B = get_int(container_B, 'hp');
-	//var con_B = get_int(container_B, 'con');
 	var ac_B = get_int(container_B, 'ac');
 	var protection_B = get_int(container_B, 'protection');
 	var saving_throw_B = get_int(container_B, 'saving_throw') - protection_B;
@@ -251,12 +265,13 @@ function calculate_attack_on_platoon() {
 	
 	var level = get_int(container, 'level');
 	var con = get_int(container, 'con');
+	var dex = get_int(container, 'dex');
 	var ac = get_int(container, 'ac');
 	var protection = get_int(container, 'protection');
 	var saving_throw = get_int(container, 'saving_throw') - protection;
 	var ac_result = 0;
 	if(!container.querySelector('#always_hit').checked) {
-		ac_result = tac0 - ac;
+		ac_result = tac0 - ac + dex;
 	}
 	
 	var damage_per_unit = (expected_result(weapon_number_of_dice, weapon_dice_sides) + str) * dice_prob_at_least(ac_result, 1, 20);
@@ -268,7 +283,7 @@ function calculate_attack_on_platoon() {
 }
 
 function get_int(container, id) {
-console.log(id + ' => ' + container.querySelector('#' + id).value);
+	//console.log(id + ' => ' + container.querySelector('#' + id).value);
 	return parseInt(container.querySelector('#' + id).value);
 }
 
@@ -342,6 +357,19 @@ document.getcontainerentById('result').innerHTML += '<br/>At most<br/>';
 for (var k = 1; k <= number_of_dice * dice_sides; k++) {
 	document.getcontainerentById('result').innerHTML += k + ' ' + (dice_prob_at_most(k, number_of_dice, dice_sides) * 100).toFixed(2) + '%<br/>';
 }*/
+
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
 </script>
 </body>
 </html>
