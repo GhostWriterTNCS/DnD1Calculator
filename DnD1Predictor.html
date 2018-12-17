@@ -44,6 +44,7 @@ input[type=number] {
 		</td><td><input type='number' id='total' value='1'/></td></tr>
 		<tr><td>Times</td><td><input type='number' id='times' value='1' /></td></tr>
 	</tbody></table>
+	<p><input class="json-file-upload" target='probability' type="file" /> <button onclick='exportJSON("probability")'>Export JSON</button><input id='name' placeholder='Name'></input></p>
 	<p><button onclick='calculate_probability();'>Calculate</button></p>
 
 	<p>Result: <span id='result'></span></p>
@@ -55,6 +56,7 @@ input[type=number] {
 		<tr><td>Dice</td><td><input type='number' id='number_of_dice' value='1'/>d<input type='number' id='dice_sides' value='6' /></td></tr>
 		<tr><td>Hits</td><td><input type='number' id='hits' value='1' /></td></tr>
 	</tbody></table>
+	<p><input class="json-file-upload" target='expected_damage' type="file" /> <button onclick='exportJSON("expected_damage")'>Export JSON</button><input id='name' placeholder='Name'></input></p>
 	<p><button onclick='calculate_expected_damage();'>Calculate</button></p>
 
 	<p>Result: <span id='result'></span></p>
@@ -83,6 +85,7 @@ input[type=number] {
 				<tr><td>DEX</td><td><input type='number' id='dex' min='-3' max='3' value='0'/> bonus to missile fire Hit rolls, Armor Class</td></tr>
 				<tr><td>CON</td><td><input type='number' id='con' min='-3' max='3' value='0'/> bonus to Hit point rolls</td></tr>
 				<tr><td>CHA</td><td><input type='number' id='cha' min='-3' max='3' value='0'/> bonus to reactions</td></tr>
+				<tr><td colspan="2"><input class="json-file-upload" target='A' type="file" /> <button onclick='exportJSON("A")'>Export JSON</button><input id='name' placeholder='Name'></input></td></tr>
 			</tbody></table>
 		</td>
 		<td>
@@ -101,6 +104,7 @@ input[type=number] {
 				<tr><td>DEX</td><td><input type='number' id='dex' min='-3' max='3' value='0'/> bonus to missile fire Hit rolls, Armor Class</td></tr>
 				<tr><td>CON</td><td><input type='number' id='con' min='-3' max='3' value='0'/> bonus to Hit point rolls</td></tr>
 				<tr><td>CHA</td><td><input type='number' id='cha' min='-3' max='3' value='0'/> bonus to reactions</td></tr>
+				<tr><td colspan="2"><input class="json-file-upload" target='B' type="file" /> <button onclick='exportJSON("B")'>Export JSON</button><input id='name' placeholder='Name'></input></td></tr>
 			</tbody></table>
 		</td>
 	</tr>
@@ -157,6 +161,7 @@ input[type=number] {
 		</td>
 	</tr>
 	</tbody></table>
+	<p><input class="json-file-upload" target='attack_on_platoon' type="file" /> <button onclick='exportJSON("attack_on_platoon")'>Export JSON</button><input id='name' placeholder='Name'></input></p>
 	<p><button onclick='calculate_attack_on_platoon();'>Calculate</button></p>
 
 	<p>Damage per unit: <span id='damage'></span></p>
@@ -358,18 +363,114 @@ for (var k = 1; k <= number_of_dice * dice_sides; k++) {
 	document.getcontainerentById('result').innerHTML += k + ' ' + (dice_prob_at_most(k, number_of_dice, dice_sides) * 100).toFixed(2) + '%<br/>';
 }*/
 
-function download(filename, text) {
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', filename);
+/**
+ * Converts the given data structure to a JSON string.
+ * Argument: arr - The data structure that must be converted to JSON
+ * Example: var json_string = array2json(['e', {pluribus: 'unum'}]);
+ * 			var json = array2json({"success":"Sweet","failure":false,"empty_array":[],"numbers":[1,2,3],"info":{"name":"Binny","site":"http:\/\/www.openjs.com\/"}});
+ * http://www.openjs.com/scripts/data/json_encode.php
+ */
+function array2json(arr) {
+    var parts = [];
+    var is_list = false; //(Object.prototype.toString.apply(arr) === '[object Array]');
 
-  element.style.display = 'none';
-  document.body.appendChild(element);
+    for(var key in arr) {
+    	var value = arr[key];
+        if(typeof value == "object") { //Custom handling for arrays
+            if(is_list) parts.push(array2json(value)); /* :RECURSION: */
+            else parts.push('"' + key + '":' + array2json(value)); /* :RECURSION: */
+            //else parts[key] = array2json(value); /* :RECURSION: */
+            
+        } else {
+            var str = "";
+            if(!is_list) str = '"' + key + '":';
 
-  element.click();
+            //Custom handling for multiple data types
+            if(typeof value == "number") str += value; //Numbers
+            else if(value === false) str += 'false'; //The booleans
+            else if(value === true) str += 'true';
+            else str += '"' + value + '"'; //All other things
+            // :TODO: Is there any more datatype we should be in the lookout for? (Functions?)
 
-  document.body.removeChild(element);
+            parts.push(str);
+        }
+    }
+    var json = parts.join(",");
+    
+    if(is_list) return '[' + json + ']';//Return numerical JSON
+    return '{' + json + '}';//Return associative JSON
 }
+
+function exportJSON(name) {
+	obj = document.querySelector('#' + name);
+	var values = new Array();
+	[].forEach.call(obj.querySelectorAll('input'), function (elem) {
+		console.log(elem.id + " => " + elem.value);
+		if (elem.type == 'checkbox') {
+			values[elem.id] = elem.checked;
+		} else if(elem.id != '') {
+			values[elem.id] = elem.value;
+		}
+	});
+	download(values['name'] + ".json", array2json(values));
+}
+
+function download(filename, text) {
+	var element = document.createElement('a');
+	element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+	element.setAttribute('download', filename);
+
+	element.style.display = 'none';
+	document.body.appendChild(element);
+
+	element.click();
+
+	document.body.removeChild(element);
+}
+
+// Set the value for an element.
+function setValue(elem, value) {
+	if (elem) {
+		if (elem.type && elem.type == 'checkbox') {
+			if (value) {
+				elem.checked = true;
+			} else {
+				elem.checked = false;
+			}
+		} else {
+			elem.value = value;
+		}
+	}
+}
+
+// JSON upload handler.
+(function () {
+	function onChange(event) {
+		console.log(event.target);
+		var target = event.target.attributes.target.value;
+		var file = event.target.files[0];
+		var reader = new FileReader();
+		reader.onload = (function(f) {
+            return function(event) {
+				onReaderLoad(event, target);
+            };
+        })(file);
+		reader.readAsText(event.target.files[0]);
+	}
+
+	function onReaderLoad(event, target) {
+		console.log(event);
+		var obj = JSON.parse(event.target.result);
+		var parent = document.querySelector('#' + target);
+		Object.keys(obj).forEach(function (key) {
+			setValue(parent.querySelector('#' + key), obj[key]);
+		});
+	}
+
+	[].forEach.call(document.querySelectorAll('.json-file-upload'), function (elem) {
+		elem.addEventListener('change', onChange);
+	});
+}());
 </script>
 </body>
 </html>
