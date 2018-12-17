@@ -77,12 +77,12 @@ input[type=number] {
 				<tr><td>Saving throw</td><td><input type='number' id='saving_throw' value='10'/> <label><input type='checkbox' id='no_saving_throw' onclick='document.querySelector("#turns_to_defeat").querySelector("#A").querySelector("#saving_throw").disabled=this.checked;' />No saving throw</label></td></tr>
 				<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
 				<tr><th>Bonus</th><td></td></tr>
-				<tr><td>STR</td><td><input type='number' id='str' min='-2' max='2' value='0'/> bonus to Hit rolls, damage rolls, opening doors</td></tr>
-				<tr><td>INT</td><td><input type='number' id='int' min='-2' max='2' value='0'/> bonus to language</td></tr>
-				<tr><td>WIS</td><td><input type='number' id='wis' min='-2' max='2' value='0'/> bonus to Saving throws against magic</td></tr>
-				<tr><td>DEX</td><td><input type='number' id='dex' min='-2' max='2' value='0'/> bonus to missile fire Hit rolls, Armor Class</td></tr>
-				<tr><td>CON</td><td><input type='number' id='con' min='-2' max='2' value='0'/> bonus to Hit point rolls</td></tr>
-				<tr><td>CHA</td><td><input type='number' id='cha' min='-2' max='2' value='0'/> bonus to reactions</td></tr>
+				<tr><td>STR</td><td><input type='number' id='str' min='-3' max='3' value='0'/> bonus to Hit rolls, damage rolls, opening doors</td></tr>
+				<tr><td>INT</td><td><input type='number' id='int' min='-3' max='3' value='0'/> bonus to language</td></tr>
+				<tr><td>WIS</td><td><input type='number' id='wis' min='-3' max='3' value='0'/> bonus to Saving throws against magic</td></tr>
+				<tr><td>DEX</td><td><input type='number' id='dex' min='-3' max='3' value='0'/> bonus to missile fire Hit rolls, Armor Class</td></tr>
+				<tr><td>CON</td><td><input type='number' id='con' min='-3' max='3' value='0'/> bonus to Hit point rolls</td></tr>
+				<tr><td>CHA</td><td><input type='number' id='cha' min='-3' max='3' value='0'/> bonus to reactions</td></tr>
 			</tbody></table>
 		</td>
 		<td>
@@ -95,12 +95,12 @@ input[type=number] {
 				<tr><td>Saving throw</td><td><input type='number' id='saving_throw' value='10'/> <label><input type='checkbox' id='no_saving_throw' onclick='document.querySelector("#turns_to_defeat").querySelector("#B").querySelector("#saving_throw").disabled=this.checked;' />No saving throw</label></td></tr>
 				<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
 				<tr><th>Bonus</th><td></td></tr>
-				<tr><td>STR</td><td><input type='number' id='str' min='-2' max='2' value='0'/> bonus to Hit rolls, damage rolls, opening doors</td></tr>
-				<tr><td>INT</td><td><input type='number' id='int' min='-2' max='2' value='0'/> bonus to language</td></tr>
-				<tr><td>WIS</td><td><input type='number' id='wis' min='-2' max='2' value='0'/> bonus to Saving throws against magic</td></tr>
-				<tr><td>DEX</td><td><input type='number' id='dex' min='-2' max='2' value='0'/> bonus to missile fire Hit rolls, Armor Class</td></tr>
-				<tr><td>CON</td><td><input type='number' id='con' min='-2' max='2' value='0'/> bonus to Hit point rolls</td></tr>
-				<tr><td>CHA</td><td><input type='number' id='cha' min='-2' max='2' value='0'/> bonus to reactions</td></tr>
+				<tr><td>STR</td><td><input type='number' id='str' min='-3' max='3' value='0'/> bonus to Hit rolls, damage rolls, opening doors</td></tr>
+				<tr><td>INT</td><td><input type='number' id='int' min='-3' max='3' value='0'/> bonus to language</td></tr>
+				<tr><td>WIS</td><td><input type='number' id='wis' min='-3' max='3' value='0'/> bonus to Saving throws against magic</td></tr>
+				<tr><td>DEX</td><td><input type='number' id='dex' min='-3' max='3' value='0'/> bonus to missile fire Hit rolls, Armor Class</td></tr>
+				<tr><td>CON</td><td><input type='number' id='con' min='-3' max='3' value='0'/> bonus to Hit point rolls</td></tr>
+				<tr><td>CHA</td><td><input type='number' id='cha' min='-3' max='3' value='0'/> bonus to reactions</td></tr>
 			</tbody></table>
 		</td>
 	</tr>
@@ -141,7 +141,7 @@ input[type=number] {
 				<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /></td></tr>
 				<tr><td>TAC0</td><td><input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onclick='document.querySelector("#attack_on_platoon").querySelector("#tac0").disabled=this.checked;' />Always hit</label></td></tr>
 				<tr><th>Bonus</th><td></td></tr>
-				<tr><td>STR</td><td><input type='number' id='str' min='-2' max='2' value='0'/> bonus to Hit rolls, damage rolls, opening doors</td></tr>
+				<tr><td>STR</td><td><input type='number' id='str' min='-3' max='3' value='0'/> bonus to Hit rolls, damage rolls, opening doors</td></tr>
 			</tbody></table>
 		</td>
 		<td>
@@ -152,7 +152,7 @@ input[type=number] {
 				<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
 				<tr><th>Bonus</th><td></td></tr>
 				<tr><td>CON</td><td><input type='number' id='con' value='0'/> bonus to Hit point rolls</td></tr>
-				<tr><td>DEX</td><td><input type='number' id='dex' min='-2' max='2' value='0'/> bonus to missile Hit rolls, Armor Class</td></tr>
+				<tr><td>DEX</td><td><input type='number' id='dex' min='-3' max='3' value='0'/> bonus to missile Hit rolls, Armor Class</td></tr>
 			</tbody></table>
 		</td>
 	</tr>
