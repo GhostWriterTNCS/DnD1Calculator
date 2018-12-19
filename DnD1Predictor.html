@@ -217,7 +217,7 @@ function calculate_turns_to_defeat() {
 			player.ac_result = player.tac0 - enemy.ac + enemy.dex;
 		}
 		if(!document.querySelector('#always_hit_' + i).checked) {
-			enemy.ac_result = enemy.tac0B - player.ac + player.dex;
+			enemy.ac_result = enemy.tac0 - player.ac + player.dex;
 		}
 
 		/*var damage_per_turn = (expected_result(weapon_number_of_dice, weapon_dice_sides) + str) * dice_prob_at_least(ac_result, 1, 20);
@@ -272,7 +272,7 @@ function calculate_attack_on_platoon() {
 }
 
 function get_int(id) {
-	//console.log(id);// + ' => ' + container.querySelectorAll('#' + id)[0].value);
+	//console.log(id + ' => ' + document.querySelector('#' + id).value);
 	return parseInt(document.querySelector('#' + id).value);
 }
 function get_int_in_container(container, id) {
