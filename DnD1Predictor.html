@@ -63,70 +63,39 @@ input[type=number] {
 </div>
 
 <div id='turns_to_defeat' class='container'>
-	<h1>A vs B</h1>
-	<table><tbody>
-	<tr>
-		<th>A</th>
-		<th>B</th>
-	</tr><tr>
-		<td>
-			<table id='A'><tbody>
-				<tr><td>HP</td><td><input type='number' id='hp' value='20'/></td></tr>
-				<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /></td></tr>
-				<tr><td>TAC0</td><td><input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onclick='document.querySelector("#turns_to_defeat").querySelector("#A").querySelector("#tac0").disabled=this.checked;' />Always hit</label><br/>
-				<!--<tr><td>CON</td><td><input type='number' id='con' value='0'/></td></tr>-->
-				<tr><td>AC</td><td><input type='number' id='ac' max='9' value='5'/> chance to evade hits (lower is better)</td></tr>		
-				<tr><td>Saving throw</td><td><input type='number' id='saving_throw' value='10'/> <label><input type='checkbox' id='no_saving_throw' onclick='document.querySelector("#turns_to_defeat").querySelector("#A").querySelector("#saving_throw").disabled=this.checked;' />No saving throw</label></td></tr>
-				<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
-				<tr><th>Bonus</th><td></td></tr>
-				<tr><td>STR</td><td><input type='number' id='str' min='-3' max='3' value='0'/> bonus to Hit rolls, damage rolls, opening doors</td></tr>
-				<tr><td>INT</td><td><input type='number' id='int' min='-3' max='3' value='0'/> bonus to language</td></tr>
-				<tr><td>WIS</td><td><input type='number' id='wis' min='-3' max='3' value='0'/> bonus to Saving throws against magic</td></tr>
-				<tr><td>DEX</td><td><input type='number' id='dex' min='-3' max='3' value='0'/> bonus to missile fire Hit rolls, Armor Class</td></tr>
-				<tr><td>CON</td><td><input type='number' id='con' min='-3' max='3' value='0'/> bonus to Hit point rolls</td></tr>
-				<tr><td>CHA</td><td><input type='number' id='cha' min='-3' max='3' value='0'/> bonus to reactions</td></tr>
-				<tr><td colspan="2"><input class="json-file-upload" target='A' type="file" /> <button onclick='exportJSON("A")'>Export JSON</button><input id='name' placeholder='Name'></input></td></tr>
-			</tbody></table>
-		</td>
-		<td>
-			<table id='B'><tbody>
-				<tr><td>HP</td><td><input type='number' id='hp' value='20'/></td></tr>
-				<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /></td></tr>
-				<tr><td>TAC0</td><td><input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onclick='document.querySelector("#turns_to_defeat").querySelector("#B").querySelector("#tac0").disabled=this.checked;' />Always hit</label><br/>
-				<!--<tr><td>CON</td><td><input type='number' id='con' value='0'/></td></tr>-->
-				<tr><td>AC</td><td><input type='number' id='ac' max='9' value='5'/> chance to evade hits (lower is better)</td></tr>		
-				<tr><td>Saving throw</td><td><input type='number' id='saving_throw' value='10'/> <label><input type='checkbox' id='no_saving_throw' onclick='document.querySelector("#turns_to_defeat").querySelector("#B").querySelector("#saving_throw").disabled=this.checked;' />No saving throw</label></td></tr>
-				<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
-				<tr><th>Bonus</th><td></td></tr>
-				<tr><td>STR</td><td><input type='number' id='str' min='-3' max='3' value='0'/> bonus to Hit rolls, damage rolls, opening doors</td></tr>
-				<tr><td>INT</td><td><input type='number' id='int' min='-3' max='3' value='0'/> bonus to language</td></tr>
-				<tr><td>WIS</td><td><input type='number' id='wis' min='-3' max='3' value='0'/> bonus to Saving throws against magic</td></tr>
-				<tr><td>DEX</td><td><input type='number' id='dex' min='-3' max='3' value='0'/> bonus to missile fire Hit rolls, Armor Class</td></tr>
-				<tr><td>CON</td><td><input type='number' id='con' min='-3' max='3' value='0'/> bonus to Hit point rolls</td></tr>
-				<tr><td>CHA</td><td><input type='number' id='cha' min='-3' max='3' value='0'/> bonus to reactions</td></tr>
-				<tr><td colspan="2"><input class="json-file-upload" target='B' type="file" /> <button onclick='exportJSON("B")'>Export JSON</button><input id='name' placeholder='Name'></input></td></tr>
-			</tbody></table>
-		</td>
-	</tr>
+	<h1>Player vs Enemies</h1>
+	<p>Calculate the damages and the turns to defeat in a 1 vs 1 fight. You can evalutate more fights at the same time to balance the stats more easily.</p>
+	<table id='AvsB'><tbody>
+	<tr><th>Stat</th><th><input id='name_0' placeholder='Name' value='Player' /></th></tr>
+	<tr><td>HP</td><td><input type='number' id='hp_0' value='20'/></td></tr>
+	<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice_0' value='1'/>d<input type='number' id='weapon_dice_sides_0' value='6' /></td></tr>
+	<tr><td>TAC0</td><td><input type='number' id='tac0_0' value='5'/> <label><input type='checkbox' id='always_hit_0' onclick='document.querySelector("#turns_to_defeat").querySelector("#A").querySelector("#tac0").disabled=this.checked;' />Always hit</label><br/>
+	<tr><td>AC <a href='#' title='Chance to evade hits (lower is better)'>?</a></td><td><input type='number' id='ac_0' max='9' value='5'/></td></tr>		
+	<tr><td>Saving throw</td><td><input type='number' id='saving_throw_0' value='10'/> <label><input type='checkbox' id='no_saving_throw_0' />No saving throw</label></td></tr>
+	<tr><td>Protection</td><td><input type='number' id='protection_0' value='0'/></td></tr>
+	<tr><th>Bonus</th><th></th></tr>
+	<tr><td>STR <a href='#' title='Bonus to Hit rolls, damage rolls, opening doors'>?</a></td><td><input type='number' id='str_0' min='-3' max='3' value='0'/></td></tr>
+	<tr><td>INT <a href='#' title='Bonus to language'>?</a></td><td><input type='number' id='int_0' min='-3' max='3' value='0'/></td></tr>
+	<tr><td>WIS <a href='#' title='Bonus to Saving throws against magic'>?</a></td><td><input type='number' id='wis_0' min='-3' max='3' value='0'/></td></tr>
+	<tr><td>DEX <a href='#' title='Bonus to missile fire Hit rolls, Armor Class'>?</a></td><td><input type='number' id='dex_0' min='-3' max='3' value='0'/></td></tr>
+	<tr><td>CON <a href='#' title='Bonus to Hit point rolls'>?</a></td><td><input type='number' id='con_0' min='-3' max='3' value='0'/></td></tr>
+	<tr><td>CHA <a href='#' title='Bonus to reactions'>?</a></td><td><input type='number' id='cha_0' min='-3' max='3' value='0'/></td></tr>
+	<tr><th>JSON</th><th><input class="json-file-upload-by-index" target='0' type="file" /><br /><button onclick='exportJSONByIndex("0")'>Export</button></th></tr>
 	</tbody></table>
+	<p><button type="button" id="btnAddCol" onclick='addColumnAvsB()'>Add new enemy</button></p>
 	<p><button onclick='calculate_turns_to_defeat();'>Calculate</button></p>
 
-	<table><tbody>
+	<table id='AvsB_result'><tbody>
 	<tr>
-		<th>A</th>
-		<th>B</th>
-	</tr><tr>
+		<td style="padding-bottom: 1em;">
+			<center><b><span id='name_player'>Player</th></b></center>
+			<p>Damage inflicted per turn: <span id='damage_player'></span></p>
+			<p>Turns to defeat <i><span id='name_enemy'>Enemy</span></i>: <span id='result_player'></span></p>
+		</td style="padding-bottom: 1em;">
 		<td>
-			<div id='result_A'>
-				<p>Damage inflicted per turn: <span id='damage'></span></p>
-				<p>Turns to defeat B: <span id='result'></span></p>
-			</div>
-		</td>
-		<td>
-			<div id='result_B'>
-				<p>Damage inflicted per turn: <span id='damage'></span></p>
-				<p>Turns to defeat A: <span id='result'></span></p>
-			</div>
+			<center><b><span id='name_enemy'>Enemy</th></b></center>
+			<p>Damage inflicted per turn: <span id='damage_enemy'></span></p>
+			<p>Turns to defeat <i><span id='name_player'>Player</span></i>: <span id='result_enemy'></span></p>
 		</td>
 	</tr>
 	</tbody></table>
@@ -154,7 +123,7 @@ input[type=number] {
 				<tr><td>AC</td><td><input type='number' id='ac' max='9' value='5'/> chance to evade hits (lower is better)</td></tr>		
 				<tr><td>Saving throw</td><td><input type='number' id='saving_throw' value='10'/> <label><input type='checkbox' id='no_saving_throw' onclick='document.querySelector("#attack_on_platoon").querySelector("#saving_throw").disabled=this.checked;' />No saving throw</label></td></tr>
 				<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
-				<tr><th>Bonus</th><td></td></tr>
+				<tr><td><b>Bonus</b></td><td></td></tr>
 				<tr><td>CON</td><td><input type='number' id='con' value='0'/> bonus to Hit point rolls</td></tr>
 				<tr><td>DEX</td><td><input type='number' id='dex' min='-3' max='3' value='0'/> bonus to missile Hit rolls, Armor Class</td></tr>
 			</tbody></table>
@@ -208,55 +177,70 @@ function calculate_damage_per_turn(weapon_number_of_dice, weapon_dice_sides, str
 }
 
 function calculate_turns_to_defeat() {
-	var container = document.querySelector('#turns_to_defeat');
-	var container_A = container.querySelector('#A');
-	var weapon_number_of_dice_A = get_int(container_A, 'weapon_number_of_dice');
-	var weapon_dice_sides_A = get_int(container_A, 'weapon_dice_sides');
-	//var con_A = get_int(container_A, 'con');
-	var str_A = get_int(container_A, 'str');
-	var dex_A = get_int(container_A, 'dex');
-	var tac0_A = get_int(container_A, 'tac0');
+	var player = new Array();
+	player.name = document.querySelector('#name_0').value;
+	player.weapon_number_of_dice = get_int('weapon_number_of_dice_0');
+	player.weapon_dice_sides = get_int('weapon_dice_sides_0');
+	player.str = get_int('str_0');
+	player.dex = get_int('dex_0');
+	player.tac0 = get_int('tac0_0');
 	
-	var hp_A = get_int(container_A, 'hp');
-	var ac_A = get_int(container_A, 'ac');
-	var protection_A = get_int(container_A, 'protection');
-	var saving_throw_A = get_int(container_A, 'saving_throw') - protection_A;
-	var no_saving_throw_A = container_A.querySelector('#no_saving_throw').checked;
-	var ac_result_A = 0;
-
-	var container_B = container.querySelector('#B');
-	var weapon_number_of_dice_B = get_int(container_B, 'weapon_number_of_dice');
-	var weapon_dice_sides_B = get_int(container_B, 'weapon_dice_sides');
-	//var con_B = get_int(container_B, 'con');
-	var str_B = get_int(container_B, 'str');
-	var dex_B = get_int(container_B, 'dex');
-	var tac0_B = get_int(container_B, 'tac0');
+	player.hp = get_int('hp_0');
+	player.ac = get_int('ac_0');
+	player.protection = get_int('protection_0');
+	player.saving_throw = get_int('saving_throw_0') - player.protection;
+	player.no_saving_throw = document.querySelectorAll('#no_saving_throw_0')[0].checked;
+	player.ac_result = 0;
 	
-	var hp_B = get_int(container_B, 'hp');
-	var ac_B = get_int(container_B, 'ac');
-	var protection_B = get_int(container_B, 'protection');
-	var saving_throw_B = get_int(container_B, 'saving_throw') - protection_B;
-	var no_saving_throw_B = container_B.querySelector('#no_saving_throw').checked;
-	var ac_result_B = 0;
+	var tr = document.querySelector('#AvsB_result').querySelector('tr');
+	var table = document.querySelector('#AvsB_result').querySelector('tbody');
+	table.innerHTML = '';
 
-	if(!container_A.querySelector('#always_hit').checked) {
-		ac_result_A = tac0_A - ac_B + dex_B;
-	}
-	if(!container_B.querySelector('#always_hit').checked) {
-		ac_result_B = tac0_B - ac_A + dex_A;
-	}
+	var i = 1;
+	while(i < iter) {
+		var enemy = new Array();
+		enemy.name = document.querySelector('#name_' + i).value;
+		enemy.weapon_number_of_dice = get_int('weapon_number_of_dice_' + i);
+		enemy.weapon_dice_sides = get_int('weapon_dice_sides_' + i);
+		enemy.str = get_int('str_' + i);
+		enemy.dex = get_int('dex_' + i);
+		enemy.tac0 = get_int('tac0_' + i);
+		
+		enemy.hp = get_int('hp_' + i);
+		enemy.ac = get_int('ac_' + i);
+		enemy.protection = get_int('protection_' + i);
+		enemy.saving_throw = get_int('saving_throw_' + i) - enemy.protection;
+		enemy.no_saving_throw = document.querySelectorAll('#no_saving_throw_' + i)[0].checked;
+		enemy.ac_result = 0;
 
-	/*var damage_per_turn = (expected_result(weapon_number_of_dice, weapon_dice_sides) + str) * dice_prob_at_least(ac_result, 1, 20);
-	if(!container.querySelector('#no_saving_throw').checked) {
-		var saving_throw_result = dice_prob_at_least(saving_throw, 1, 20);
-		damage_per_turn = damage_per_turn * (1 - saving_throw_result) + damage_per_turn / 2 * saving_throw_result;
-	}*/
-	var damage_per_turn_A = calculate_damage_per_turn(weapon_number_of_dice_A, weapon_dice_sides_A, str_A, ac_result_A, saving_throw_B, no_saving_throw_B);
-	var damage_per_turn_B = calculate_damage_per_turn(weapon_number_of_dice_B, weapon_dice_sides_B, str_B, ac_result_B, saving_throw_A, no_saving_throw_A);
-	container.querySelector('#result_A').querySelector('#damage').innerHTML = damage_per_turn_A;
-	container.querySelector('#result_A').querySelector('#result').innerHTML = hp_B / damage_per_turn_A;
-	container.querySelector('#result_B').querySelector('#damage').innerHTML = damage_per_turn_B;
-	container.querySelector('#result_B').querySelector('#result').innerHTML = hp_A / damage_per_turn_B;
+		if(!document.querySelector('#always_hit_0').checked) {
+			player.ac_result = player.tac0 - enemy.ac + enemy.dex;
+		}
+		if(!document.querySelector('#always_hit_' + i).checked) {
+			enemy.ac_result = enemy.tac0B - player.ac + player.dex;
+		}
+
+		/*var damage_per_turn = (expected_result(weapon_number_of_dice, weapon_dice_sides) + str) * dice_prob_at_least(ac_result, 1, 20);
+		if(!container.querySelector('#no_saving_throw').checked) {
+			var saving_throw_result = dice_prob_at_least(saving_throw, 1, 20);
+			damage_per_turn = damage_per_turn * (1 - saving_throw_result) + damage_per_turn / 2 * saving_throw_result;
+		}*/
+		player.damage_per_turn = calculate_damage_per_turn(player.weapon_number_of_dice, player.weapon_dice_sides, player.str, player.ac_result, enemy.saving_throw, enemy.no_saving_throw);
+		enemy.damage_per_turn = calculate_damage_per_turn(enemy.weapon_number_of_dice, enemy.weapon_dice_sides, enemy.str, enemy.ac_result, player.saving_throw, player.no_saving_throw);
+		
+		[].forEach.call(tr.querySelectorAll('#name_player'), function (elem) {
+			elem.innerHTML = player.name;
+		});
+		tr.querySelector('#damage_player').innerHTML = player.damage_per_turn;
+		tr.querySelector('#result_player').innerHTML = enemy.hp / player.damage_per_turn;
+		[].forEach.call(tr.querySelectorAll('#name_enemy'), function (elem) {
+			elem.innerHTML = enemy.name;
+		});
+		tr.querySelector('#damage_enemy').innerHTML = enemy.damage_per_turn;
+		tr.querySelector('#result_enemy').innerHTML = player.hp / enemy.damage_per_turn;
+		table.innerHTML += tr.outerHTML;
+		i++;
+	}
 }
 
 function calculate_attack_on_platoon() {
@@ -287,9 +271,9 @@ function calculate_attack_on_platoon() {
 	container.querySelector('#result').innerHTML = (units * prob_at_least) + ' survived units (' + percentage(prob_at_least) + ')';
 }
 
-function get_int(container, id) {
-	//console.log(id + ' => ' + container.querySelector('#' + id).value);
-	return parseInt(container.querySelector('#' + id).value);
+function get_int(id) {
+	//console.log(id);// + ' => ' + container.querySelectorAll('#' + id)[0].value);
+	return parseInt(document.querySelector('#' + id).value);
 }
 
 function percentage(num, decimals=2) {
@@ -349,6 +333,61 @@ function dice_prob_at_most(p, n, s=6) {
 	return sum;
 }
 
+var myform = document.querySelector('#AvsB');
+var iter = 1;
+function addColumnAvsB() {
+	var values = new Array();
+	[].forEach.call(myform.querySelectorAll('input'), function (elem) {
+		if (elem.type == 'checkbox') {
+			values[elem.id] = elem.checked;
+		} else if(elem.id != '') {
+			values[elem.id] = elem.value;
+		}
+	});
+
+	var first = true;
+	[].forEach.call(myform.querySelectorAll('tr'), function(trow) {
+		var tag = 'td';
+		var td = trow.querySelectorAll(tag)[1];
+		if(td == null) {
+			tag = 'th';
+			td = trow.querySelectorAll(tag)[1];
+		}
+		trow.innerHTML += '<' + tag + '>' + td.innerHTML + '</' + tag + '>';
+		
+		var td = trow.querySelectorAll(tag);
+		td = td[td.length-1];
+		if(first) {
+			td.innerHTML = iter + '. ' + td.innerHTML;
+		}
+		[].forEach.call(td.querySelectorAll('input'), function(input) {
+			if(first) {
+				input.value = 'Enemy ' + iter;
+				first = false;
+			}
+			if(input.attributes.target != null) {
+				input.setAttribute('target', iter);
+			} else {
+				var id = input.id;
+				input.id = id.substring(0, id.lastIndexOf('_')) + '_' + iter;
+			}
+		});
+		var button = td.querySelector('button');
+		if(button != null) {
+			button.setAttribute('onclick', 'exportJSONByIndex("' + iter + '")');
+			button.addEventListener('change', onChangeByIndex)
+		}
+	});
+
+	// Restore values in form.
+	Object.keys(values).forEach(function (key) {
+		setValue(document.querySelectorAll('#' + key)[0], values[key]);
+	});
+	setJsonListeners();
+	iter += 1;
+}
+addColumnAvsB();
+
 /*var number_of_dice = 1;
 var dice_sides = 6;
 for (var k = 1; k <= number_of_dice * dice_sides; k++) {
@@ -401,6 +440,7 @@ function array2json(arr) {
     return '{' + json + '}';//Return associative JSON
 }
 
+// Export input values to a JSON file.
 function exportJSON(name) {
 	obj = document.querySelector('#' + name);
 	var values = new Array();
@@ -414,17 +454,30 @@ function exportJSON(name) {
 	});
 	download(values['name'] + ".json", array2json(values));
 }
+function exportJSONByIndex(index) {
+	var values = new Array();
+	[].forEach.call(document.querySelectorAll('input'), function (elem) {
+		if(elem.id.endsWith('_' + index)) {
+			var id = elem.id;
+			id = id.substring(0, id.lastIndexOf('_'));
+			console.log(elem.id + " => " + elem.value);
+			if (elem.type == 'checkbox') {
+				values[id] = elem.checked;
+			} else if(id != '') {
+				values[id] = elem.value;
+			}
+		}
+	});
+	download(values['name'] + ".json", array2json(values));
+}
 
 function download(filename, text) {
 	var element = document.createElement('a');
 	element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
 	element.setAttribute('download', filename);
-
 	element.style.display = 'none';
 	document.body.appendChild(element);
-
 	element.click();
-
 	document.body.removeChild(element);
 }
 
@@ -444,33 +497,56 @@ function setValue(elem, value) {
 }
 
 // JSON upload handler.
-(function () {
-	function onChange(event) {
-		console.log(event.target);
-		var target = event.target.attributes.target.value;
-		var file = event.target.files[0];
-		var reader = new FileReader();
-		reader.onload = (function(f) {
-            return function(event) {
-				onReaderLoad(event, target);
-            };
-        })(file);
-		reader.readAsText(event.target.files[0]);
-	}
+function onChange(event) {
+	//console.log(event.target);
+	var target = event.target.attributes.target.value;
+	var file = event.target.files[0];
+	var reader = new FileReader();
+	reader.onload = (function(f) {
+		return function(event) {
+			onReaderLoad(event, target);
+		};
+	})(file);
+	reader.readAsText(event.target.files[0]);
+}
+function onChangeByIndex(event) {
+	//console.log(event.target);
+	var target = event.target.attributes.target.value;
+	var file = event.target.files[0];
+	var reader = new FileReader();
+	reader.onload = (function(f) {
+		return function(event) {
+			onReaderLoadByIndex(event, target);
+		};
+	})(file);
+	reader.readAsText(event.target.files[0]);
+}
 
-	function onReaderLoad(event, target) {
-		console.log(event);
-		var obj = JSON.parse(event.target.result);
-		var parent = document.querySelector('#' + target);
-		Object.keys(obj).forEach(function (key) {
-			setValue(parent.querySelector('#' + key), obj[key]);
-		});
-	}
+function onReaderLoad(event, target) {
+	console.log(event);
+	var obj = JSON.parse(event.target.result);
+	var parent = document.querySelector('#' + target);
+	Object.keys(obj).forEach(function (key) {
+		setValue(parent.querySelector('#' + key), obj[key]);
+	});
+}
+function onReaderLoadByIndex(event, target) {
+	console.log(event);
+	var obj = JSON.parse(event.target.result);
+	Object.keys(obj).forEach(function (key) {
+		setValue(document.querySelector('#' + key + '_' + target), obj[key]);
+	});
+}
 
+function setJsonListeners() {
 	[].forEach.call(document.querySelectorAll('.json-file-upload'), function (elem) {
 		elem.addEventListener('change', onChange);
 	});
-}());
+	[].forEach.call(document.querySelectorAll('.json-file-upload-by-index'), function (elem) {
+		elem.addEventListener('change', onChangeByIndex);
+	});
+}
+setJsonListeners();
 </script>
 </body>
 </html>
