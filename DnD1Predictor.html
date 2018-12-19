@@ -90,10 +90,10 @@ input[type=number] {
 		<td style="padding-bottom: 1em;">
 			<center><b><span id='name_player'>Player</th></b></center>
 			<p>Damage inflicted per turn: <span id='damage_player'></span></p>
-			<p>Turns to defeat <i><span id='name_enemy'>Enemy</span></i>: <span id='result_player'></span></p>
+			<p>Turns to defeat <i><span id='name_enemy'>Enemy 1</span></i>: <span id='result_player'></span></p>
 		</td style="padding-bottom: 1em;">
 		<td>
-			<center><b><span id='name_enemy'>Enemy</th></b></center>
+			<center><b><span id='name_enemy'>Enemy 1</th></b></center>
 			<p>Damage inflicted per turn: <span id='damage_enemy'></span></p>
 			<p>Turns to defeat <i><span id='name_player'>Player</span></i>: <span id='result_enemy'></span></p>
 		</td>
@@ -140,10 +140,10 @@ input[type=number] {
 <script>
 function calculate_probability() {
 	var container = document.querySelector('#probability');
-	var number_of_dice = get_int(container, 'number_of_dice');
-	var dice_sides = get_int(container, 'dice_sides');
-	var total = get_int(container, 'total');
-	var times = get_int(container, 'times');
+	var number_of_dice = get_int_in_container(container, 'number_of_dice');
+	var dice_sides = get_int_in_container(container, 'dice_sides');
+	var total = get_int_in_container(container, 'total');
+	var times = get_int_in_container(container, 'times');
 	var result = 0;
 	switch(container.querySelector('#type').value) {
 		case '>=':
@@ -161,9 +161,9 @@ function calculate_probability() {
 
 function calculate_expected_damage() {
 	var container = document.querySelector('#expected_damage');
-	var number_of_dice = get_int(container, 'number_of_dice');
-	var dice_sides = get_int(container, 'dice_sides');
-	var hits = get_int(container, 'hits');
+	var number_of_dice = get_int_in_container(container, 'number_of_dice');
+	var dice_sides = get_int_in_container(container, 'dice_sides');
+	var hits = get_int_in_container(container, 'hits');
 	container.querySelector('#result').innerHTML = expected_result(number_of_dice, dice_sides, hits);
 }
 
@@ -245,19 +245,19 @@ function calculate_turns_to_defeat() {
 
 function calculate_attack_on_platoon() {
 	var container = document.querySelector('#attack_on_platoon');
-	var units = get_int(container, 'units');
+	var units = get_int_in_container(container, 'units');
 	
-	var weapon_number_of_dice = get_int(container, 'weapon_number_of_dice');
-	var weapon_dice_sides = get_int(container, 'weapon_dice_sides');
-	var str = get_int(container, 'str');
-	var tac0 = get_int(container, 'tac0');
+	var weapon_number_of_dice = get_int_in_container(container, 'weapon_number_of_dice');
+	var weapon_dice_sides = get_int_in_container(container, 'weapon_dice_sides');
+	var str = get_int_in_container(container, 'str');
+	var tac0 = get_int_in_container(container, 'tac0');
 	
-	var level = get_int(container, 'level');
-	var con = get_int(container, 'con');
-	var dex = get_int(container, 'dex');
-	var ac = get_int(container, 'ac');
-	var protection = get_int(container, 'protection');
-	var saving_throw = get_int(container, 'saving_throw') - protection;
+	var level = get_int_in_container(container, 'level');
+	var con = get_int_in_container(container, 'con');
+	var dex = get_int_in_container(container, 'dex');
+	var ac = get_int_in_container(container, 'ac');
+	var protection = get_int_in_container(container, 'protection');
+	var saving_throw = get_int_in_container(container, 'saving_throw') - protection;
 	var ac_result = 0;
 	if(!container.querySelector('#always_hit').checked) {
 		ac_result = tac0 - ac + dex;
@@ -275,7 +275,7 @@ function get_int(id) {
 	//console.log(id);// + ' => ' + container.querySelectorAll('#' + id)[0].value);
 	return parseInt(document.querySelector('#' + id).value);
 }
-function get_int(container, id) {
+function get_int_in_container(container, id) {
 	//console.log(id);// + ' => ' + container.querySelectorAll('#' + id)[0].value);
 	return parseInt(container.querySelector('#' + id).value);
 }
