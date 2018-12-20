@@ -205,7 +205,7 @@ function calculate_turns_to_defeat() {
 	player.weapon_dice_sides = get_int('weapon_dice_sides_0');
 	player.str = calculate_bonus(get_int('str_0'));
 	player.dex = calculate_bonus(get_int('dex_0'));
-	player.tac0 = calculate_bonus(get_int('tac0_0'));
+	player.tac0 = get_int('tac0_0');
 	
 	player.hp = get_int('hp_0');
 	player.ac = get_int('ac_0');
@@ -226,7 +226,7 @@ function calculate_turns_to_defeat() {
 		enemy.weapon_dice_sides = get_int('weapon_dice_sides_' + i);
 		enemy.str = calculate_bonus(get_int('str_' + i));
 		enemy.dex = calculate_bonus(get_int('dex_' + i));
-		enemy.tac0 = calculate_bonus(get_int('tac0_' + i));
+		enemy.tac0 = get_int('tac0_' + i);
 		
 		enemy.hp = get_int('hp_' + i);
 		enemy.ac = get_int('ac_' + i);
