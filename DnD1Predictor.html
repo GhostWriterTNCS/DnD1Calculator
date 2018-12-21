@@ -69,8 +69,8 @@ input[type=number] {
 	<tr><th>Stat</th><th><input id='name_0' placeholder='Name' value='Player' /></th></tr>
 	<tr><td>HP</td><td><input type='number' id='hp_0' value='20'/></td></tr>
 	<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice_0' value='1'/>d<input type='number' id='weapon_dice_sides_0' value='6' /></td></tr>
-	<tr><td>TAC0</td><td><input type='number' id='tac0_0' value='5'/> <label><input type='checkbox' id='always_hit_0' onchange='document.querySelector("#turns_to_defeat").querySelector("#A").querySelector("#tac0").disabled=this.checked;' />Always hit</label><br/>
 	<tr><td>AC <a href='#' title='Chance to evade hits (lower is better)'>?</a></td><td><input type='number' id='ac_0' max='9' value='5'/></td></tr>		
+	<tr><td>TAC0 <a href='#' title='Dice required to hit enemy with AC=0 (lower is better)'>?</a></td><td><input type='number' id='tac0_0' value='5'/> <label><input type='checkbox' id='always_hit_0' onchange='document.querySelector("#turns_to_defeat").querySelector("#A").querySelector("#tac0").disabled=this.checked;' />Always hit</label><br/>
 	<tr><td>Saving throw</td><td><input type='number' id='saving_throw_0' value='10'/> <label><input type='checkbox' id='no_saving_throw_0' />No saving throw</label></td></tr>
 	<tr><td>Protection</td><td><input type='number' id='protection_0' value='0'/></td></tr>
 	<tr><th>Ability scores</th><th></th></tr>
@@ -116,7 +116,7 @@ input[type=number] {
 		<td>
 			<table><tbody>
 				<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /></td></tr>
-				<tr><td>TAC0</td><td><input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onchange='document.querySelector("#attack_on_platoon").querySelector("#tac0").disabled=this.checked;' />Always hit</label></td></tr>
+				<tr><td>TAC0 <a href='#' title='Dice required to hit enemy with AC=0 (lower is better)'>?</a></td><td><input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onchange='document.querySelector("#attack_on_platoon").querySelector("#tac0").disabled=this.checked;' />Always hit</label></td></tr>
 				<tr><th>Ability scores</th><td></td></tr>
 				<tr><td>STR <a href='#' title='Bonus to Hit rolls, damage rolls, opening doors'>?</a></td><td><input type='number' id='str' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_str'>0</span></td></tr>
 			</tbody></table>
@@ -124,7 +124,7 @@ input[type=number] {
 		<td>
 			<table><tbody>
 				<tr><td>Level</td><td><input type='number' id='level' value='5'/></td></tr>
-				<tr><td>AC</td><td><input type='number' id='ac' max='9' value='5'/> chance to evade hits (lower is better)</td></tr>		
+				<tr><td>AC <a href='#' title='Chance to evade hits (lower is better)'>?</a></td><td><input type='number' id='ac' max='9' value='5'/> chance to evade hits (lower is better)</td></tr>		
 				<tr><td>Saving throw</td><td><input type='number' id='saving_throw' value='10'/> <label><input type='checkbox' id='no_saving_throw' onchange='document.querySelector("#attack_on_platoon").querySelector("#saving_throw").disabled=this.checked;' />No saving throw</label></td></tr>
 				<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
 				<tr><td><b>Ability scores</b></td><td></td></tr>
@@ -254,14 +254,14 @@ function calculate_turns_to_defeat() {
 			elem.innerHTML = player.name;
 		});
 		tr.querySelector('#damage_player').innerHTML = (expected_result(player.weapon_number_of_dice, player.weapon_dice_sides) + player.str).toFixed(3);
-		tr.querySelector('#chance_player').innerHTML = dice_prob_at_least(player.ac_result, 1, 20).toFixed(3);
+		tr.querySelector('#chance_player').innerHTML = (dice_prob_at_least(player.ac_result, 1, 20)*100).toFixed(0) + "%";
 		tr.querySelector('#damage_per_turn_player').innerHTML = player.damage_per_turn.toFixed(3);
 		tr.querySelector('#result_player').innerHTML = (enemy.hp / player.damage_per_turn).toFixed(3);
 		[].forEach.call(tr.querySelectorAll('#name_enemy'), function (elem) {
 			elem.innerHTML = enemy.name;
 		});
 		tr.querySelector('#damage_enemy').innerHTML = (expected_result(enemy.weapon_number_of_dice, enemy.weapon_dice_sides) + enemy.str).toFixed(3);
-		tr.querySelector('#chance_enemy').innerHTML = dice_prob_at_least(enemy.ac_result, 1, 20).toFixed(3);
+		tr.querySelector('#chance_enemy').innerHTML = (dice_prob_at_least(enemy.ac_result, 1, 20)*100).toFixed(0) + "%";
 		tr.querySelector('#damage_per_turn_enemy').innerHTML = enemy.damage_per_turn.toFixed(3);
 		tr.querySelector('#result_enemy').innerHTML = (player.hp / enemy.damage_per_turn).toFixed(3);
 		table.innerHTML += tr.outerHTML;
