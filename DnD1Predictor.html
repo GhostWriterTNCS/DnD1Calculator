@@ -75,11 +75,11 @@ input[type=number] {
 	<tr><td>Protection</td><td><input type='number' id='protection_0' value='0'/></td></tr>
 	<tr><th>Ability scores</th><th></th></tr>
 	<tr><td>STR <a href='#' title='Bonus to Hit rolls, damage rolls, opening doors'>?</a></td><td><input type='number' id='str_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_str_0'>0</span></td></tr>
-	<tr><td>INT <a href='#' title='Bonus to language'>?</a></td><td><input type='number' id='int_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_int_0'>0</span></td></tr>
-	<tr><td>WIS <a href='#' title='Bonus to Saving throws against magic'>?</a></td><td><input type='number' id='wis_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_wis_0'>0</span></td></tr>
+	<!--<tr><td>INT <a href='#' title='Bonus to language'>?</a></td><td><input type='number' id='int_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_int_0'>0</span></td></tr>
+	<tr><td>WIS <a href='#' title='Bonus to Saving throws against magic'>?</a></td><td><input type='number' id='wis_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_wis_0'>0</span></td></tr>-->
 	<tr><td>DEX <a href='#' title='Bonus to missile fire Hit rolls, Armor Class'>?</a></td><td><input type='number' id='dex_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_dex_0'>0</span></td></tr>
-	<tr><td>CON <a href='#' title='Bonus to Hit point rolls'>?</a></td><td><input type='number' id='con_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_con_0'>0</span></td></tr>
-	<tr><td>CHA <a href='#' title='Bonus to reactions'>?</a></td><td><input type='number' id='cha_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_cha_0'>0</span></td></tr>
+	<!--<tr><td>CON <a href='#' title='Bonus to Hit point rolls'>?</a></td><td><input type='number' id='con_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_con_0'>0</span></td></tr>
+	<tr><td>CHA <a href='#' title='Bonus to reactions'>?</a></td><td><input type='number' id='cha_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_cha_0'>0</span></td></tr>-->
 	<tr><th>JSON</th><th><input class="json-file-upload-by-index" target='0' type="file" /><br /><button onclick='exportJSONByIndex("0")'>Export</button></th></tr>
 	</tbody></table>
 	<p><button type="button" id="btnAddCol" onclick='addColumnAvsB()'>Add new enemy</button></p>
@@ -105,6 +105,38 @@ input[type=number] {
 	</tbody></table>
 </div>
 
+<div id='missile_against_target' class='container'>
+	<h1>Missile against target</h1>
+	<p>Calculate the damage inflicted by a missile against a target<p>
+	<table><tbody>
+		<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /></td></tr>
+		<tr><td>DEX <a href='#' title='Bonus to missile fire Hit rolls, Armor Class'>?</a></td><td><input type='number' id='dex' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_dex'>0</span></td></tr>
+		<tr><td>Magic bonus</td><td><input type='number' id='magic_bonus' value='0'/></td></tr>
+		<tr><td>Target distance</td><td>
+			<select id='range'>
+			<option value='1'>Short</option>
+			<option value='0' selected>Medium</option>
+			<option value='-1'>Long</option>
+			</select>
+		</td></tr>
+		<tr><td>Target cover</td><td>
+			<select id='cover'>
+			<option value='0'>None</option>
+			<option value='1'>Partial</option>
+			<option value='2'>Partial+</option>
+			<option value='3'>Partial++</option>
+			<option value='4'>Full</option>
+			</select>
+		</td></tr>
+		<tr><td>Saving throw</td><td><input type='number' id='saving_throw' value='10'/> <label><input type='checkbox' id='no_saving_throw' onchange='document.querySelector("#attack_on_platoon").querySelector("#saving_throw").disabled=this.checked;' />No saving throw</label></td></tr>
+		<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
+	</tbody></table>
+	<p><input class="json-file-upload" target='missile_against_target' type="file" /> <button onclick='exportJSON("missile_against_target")'>Export JSON</button><input id='name' placeholder='Name'></input></p>
+	<p><button onclick='calculate_missile_against_target();'>Calculate</button></p>
+
+	<p>Damage inflicted: <span id='result'></span></p>
+</div>
+
 <div id='attack_on_platoon' class='container'>
 	<h1>How many survivors?</h1>
 	<p>How many survivors after an attack on a platoon of <input type='number' id='units' value='1'/> units?<p>
@@ -116,20 +148,36 @@ input[type=number] {
 		<td>
 			<table><tbody>
 				<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /></td></tr>
-				<tr><td>TAC0 <a href='#' title='Dice required to hit enemy with AC=0 (lower is better)'>?</a></td><td><input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onchange='document.querySelector("#attack_on_platoon").querySelector("#tac0").disabled=this.checked;' />Always hit</label></td></tr>
+				<!--<tr><td>TAC0 <a href='#' title='Dice required to hit enemy with AC=0 (lower is better)'>?</a></td><td><input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onchange='document.querySelector("#attack_on_platoon").querySelector("#tac0").disabled=this.checked;' />Always hit</label></td></tr>-->
+				<tr><td>Magic bonus</td><td><input type='number' id='magic_bonus' value='0'/></td></tr>
+				<tr><td>Target distance</td><td>
+					<select id='range'>
+					<option value='1'>Short</option>
+					<option value='0' selected>Medium</option>
+					<option value='-1'>Long</option>
+					</select>
+				</td></tr>
+				<tr><td>Target cover</td><td>
+					<select id='cover'>
+					<option value='0'>None</option>
+					<option value='1'>Partial</option>
+					<option value='2'>Partial+</option>
+					<option value='3'>Partial++</option>
+					<option value='4'>Full</option>
+					</select>
+				</td></tr>
 				<tr><th>Ability scores</th><td></td></tr>
-				<tr><td>STR <a href='#' title='Bonus to Hit rolls, damage rolls, opening doors'>?</a></td><td><input type='number' id='str' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_str'>0</span></td></tr>
+				<tr><td>DEX <a href='#' title='Bonus to missile fire Hit rolls, Armor Class'>?</a></td><td><input type='number' id='dex' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_dex'>0</span></td></tr>
 			</tbody></table>
 		</td>
 		<td>
 			<table><tbody>
 				<tr><td>Level</td><td><input type='number' id='level' value='5'/></td></tr>
-				<tr><td>AC <a href='#' title='Chance to evade hits (lower is better)'>?</a></td><td><input type='number' id='ac' max='9' value='5'/> chance to evade hits (lower is better)</td></tr>		
+				<!--<tr><td>AC <a href='#' title='Chance to evade hits (lower is better)'>?</a></td><td><input type='number' id='ac' max='9' value='5'/> chance to evade hits (lower is better)</td></tr>-->
 				<tr><td>Saving throw</td><td><input type='number' id='saving_throw' value='10'/> <label><input type='checkbox' id='no_saving_throw' onchange='document.querySelector("#attack_on_platoon").querySelector("#saving_throw").disabled=this.checked;' />No saving throw</label></td></tr>
 				<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
 				<tr><td><b>Ability scores</b></td><td></td></tr>
 				<tr><td>CON <a href='#' title='Bonus to Hit point rolls'>?</a></td><td><input type='number' id='con' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_con'>0</span></td></tr>
-				<tr><td>DEX <a href='#' title='Bonus to missile fire Hit rolls, Armor Class'>?</a></td><td><input type='number' id='dex' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_dex'>0</span></td></tr>
 			</tbody></table>
 		</td>
 	</tr>
@@ -269,27 +317,57 @@ function calculate_turns_to_defeat() {
 	}
 }
 
+function calculate_missile_damage(weapon_number_of_dice, weapon_dice_sides, dex, range_bonus, cover, magic_bonus, saving_throw, protection) {
+	var damage = expected_result(weapon_number_of_dice, weapon_dice_sides) + dex + range_bonus + magic_bonus;
+	var saving_throw_result = dice_prob_at_least(saving_throw - cover, 1, 20);
+	return damage * (1 - saving_throw_result) + damage / 2 * saving_throw_result;
+}
+
+function calculate_missile_against_target() {
+	var container = document.querySelector('#missile_against_target');
+	
+	var weapon_number_of_dice = get_int_in_container(container, 'weapon_number_of_dice');
+	var weapon_dice_sides = get_int_in_container(container, 'weapon_dice_sides');
+	var range_bonus = get_int_in_container(container, 'range');
+	var magic_bonus = get_int_in_container(container, 'magic_bonus');
+	var dex = calculate_bonus(get_int_in_container(container, 'dex'));
+	//var tac0 = get_int_in_container(container, 'tac0');
+	
+	var cover = get_int_in_container(container, 'cover');
+	//var ac = get_int_in_container(container, 'ac');
+	var protection = get_int_in_container(container, 'protection');
+	var saving_throw = get_int_in_container(container, 'saving_throw') - protection;
+	/*var ac_result = 0;
+	if(!container.querySelector('#always_hit').checked) {
+		ac_result = tac0 - ac + dex;
+	}*/
+
+	container.querySelector('#result').innerHTML = calculate_missile_damage(weapon_number_of_dice, weapon_dice_sides, dex, range_bonus, cover, magic_bonus, saving_throw, protection).toFixed(3);
+}
+
 function calculate_attack_on_platoon() {
 	var container = document.querySelector('#attack_on_platoon');
 	var units = get_int_in_container(container, 'units');
 	
 	var weapon_number_of_dice = get_int_in_container(container, 'weapon_number_of_dice');
 	var weapon_dice_sides = get_int_in_container(container, 'weapon_dice_sides');
-	var str = calculate_bonus(get_int_in_container(container, 'str'));
-	var tac0 = get_int_in_container(container, 'tac0');
+	var range_bonus = get_int_in_container(container, 'range');
+	var dex = calculate_bonus(get_int_in_container(container, 'dex'));
+	//var str = calculate_bonus(get_int_in_container(container, 'str'));
+	//var tac0 = get_int_in_container(container, 'tac0');
 	
 	var level = get_int_in_container(container, 'level');
+	var cover = calculate_bonus(get_int_in_container(container, 'cover'));
 	var con = calculate_bonus(get_int_in_container(container, 'con'));
-	var dex = calculate_bonus(get_int_in_container(container, 'dex'));
-	var ac = get_int_in_container(container, 'ac');
-	var protection = get_int_in_container(container, 'protection');
+	//var ac = get_int_in_container(container, 'ac');
 	var saving_throw = get_int_in_container(container, 'saving_throw') - protection;
-	var ac_result = 0;
+	var protection = get_int_in_container(container, 'protection');
+	/*var ac_result = 0;
 	if(!container.querySelector('#always_hit').checked) {
 		ac_result = tac0 - ac + dex;
-	}
+	}*/
 	
-	var damage_per_unit = (expected_result(weapon_number_of_dice, weapon_dice_sides) + str) * dice_prob_at_least(ac_result, 1, 20);
+	var damage_per_unit = (expected_result(weapon_number_of_dice, weapon_dice_sides) + dex);// * dice_prob_at_least(ac_result, 1, 20);
 	var saving_throw_result = dice_prob_at_least(saving_throw, 1, 20);
 	damage_per_unit = damage_per_unit * (1 - saving_throw_result) + damage_per_unit / 2 * saving_throw_result;
 	container.querySelector('#damage').innerHTML = damage_per_unit.toFixed(3);
