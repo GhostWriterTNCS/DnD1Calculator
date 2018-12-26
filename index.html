@@ -1,0 +1,196 @@
+﻿<html>
+<head>
+<title>D&D1 Predictor</title>
+<style>
+td {
+    padding-right: 10px;
+}
+
+tr {
+    vertical-align: top;
+}
+
+label {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+input[type=number] {
+    width: 70px;
+}
+
+.container {
+    border-bottom: 1px solid;
+    margin-bottom: 1em;
+}
+</style>
+</head>
+<body>
+<div id='probability' class='container'>
+	<h1>Probability</h1> 
+	<table><tbody>
+		<tr><td>Dice</td><td><input type='number' id='number_of_dice' value='1'/>d<input type='number' id='dice_sides' value='6' /></td></tr>
+		<tr><td>
+			<select id='type'>
+			<option value='=='>exactly (==)</option>
+			<option value='>='>at least (>=)</option>
+			<option value='<='>at most (<=)</option>
+			</select>
+		</td><td><input type='number' id='total' value='1'/></td></tr>
+		<tr><td>Times</td><td><input type='number' id='times' value='1' /></td></tr>
+	</tbody></table>
+	<p><input class="json-file-upload" target='probability' type="file" /> <button onclick='exportJSON("probability")'>Export JSON</button><input id='name' placeholder='Name'></input></p>
+	<p><button onclick='calculate_probability();'>Calculate</button></p>
+
+	<p>Result: <span id='result'></span></p>
+</div>
+
+<div id='expected_damage' class='container'>
+	<h1>Expected damage</h1>
+	<table><tbody>
+		<tr><td>Dice</td><td><input type='number' id='number_of_dice' value='1'/>d<input type='number' id='dice_sides' value='6' /></td></tr>
+		<tr><td>Hits</td><td><input type='number' id='hits' value='1' /></td></tr>
+	</tbody></table>
+	<p><input class="json-file-upload" target='expected_damage' type="file" /> <button onclick='exportJSON("expected_damage")'>Export JSON</button><input id='name' placeholder='Name'></input></p>
+	<p><button onclick='calculate_expected_damage();'>Calculate</button></p>
+
+	<p>Result: <span id='result'></span></p>
+</div>
+
+<div id='turns_to_defeat' class='container'>
+	<h1>Player vs Enemies</h1>
+	<p>Calculate the damages and the turns to defeat in a 1 vs 1 fight. You can evalutate more fights at the same time to balance the stats more easily.</p>
+	<table id='AvsB'><tbody>
+	<tr><th>Stat</th><th><input id='name_0' placeholder='Name' value='Player' /></th></tr>
+	<tr><td>HP</td><td><input type='number' id='hp_0' value='20'/></td></tr>
+	<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice_0' value='1'/>d<input type='number' id='weapon_dice_sides_0' value='6' /></td></tr>
+	<tr><td>AC <a href='#' title='Chance to evade hits (lower is better)'>?</a></td><td><input type='number' id='ac_0' max='9' value='5'/></td></tr>		
+	<tr><td>TAC0 <a href='#' title='Dice required to hit enemy with AC=0 (lower is better)'>?</a></td><td><input type='number' id='tac0_0' value='5'/> <label><input type='checkbox' id='always_hit_0' onchange='document.querySelector("#turns_to_defeat").querySelector("#A").querySelector("#tac0").disabled=this.checked;' />Always hit</label><br/>
+	<tr><td>Saving throw</td><td><input type='number' id='saving_throw_0' value='10'/> <label><input type='checkbox' id='no_saving_throw_0' />No saving throw</label></td></tr>
+	<tr><td>Protection</td><td><input type='number' id='protection_0' value='0'/></td></tr>
+	<tr><th>Ability scores</th><th></th></tr>
+	<tr><td>STR <a href='#' title='Bonus to Hit rolls, damage rolls, opening doors'>?</a></td><td><input type='number' id='str_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_str_0'>0</span></td></tr>
+	<!--<tr><td>INT <a href='#' title='Bonus to language'>?</a></td><td><input type='number' id='int_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_int_0'>0</span></td></tr>
+	<tr><td>WIS <a href='#' title='Bonus to Saving throws against magic'>?</a></td><td><input type='number' id='wis_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_wis_0'>0</span></td></tr>-->
+	<tr><td>DEX <a href='#' title='Bonus to missile fire Hit rolls, Armor Class'>?</a></td><td><input type='number' id='dex_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_dex_0'>0</span></td></tr>
+	<!--<tr><td>CON <a href='#' title='Bonus to Hit point rolls'>?</a></td><td><input type='number' id='con_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_con_0'>0</span></td></tr>
+	<tr><td>CHA <a href='#' title='Bonus to reactions'>?</a></td><td><input type='number' id='cha_0' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_cha_0'>0</span></td></tr>-->
+	<tr><th>JSON</th><th><input class="json-file-upload-by-index" target='0' type="file" /><br /><button onclick='exportJSONByIndex("0")'>Export</button></th></tr>
+	</tbody></table>
+	<p><button type="button" id="btnAddCol" onclick='addColumnAvsB()'>Add new enemy</button></p>
+	<p><button onclick='calculate_turns_to_defeat();'>Calculate</button></p>
+
+	<table id='AvsB_result'><tbody>
+	<tr>
+		<td style="padding-bottom: 1em;">
+			<center><b><span id='name_player'>Player</th></b></center>
+			<p>Expected damage: <span id='damage_player'></span></p>
+			<p>Chance to hit: <span id='chance_player'></span></p>
+			<p>Damage inflicted per turn: <span id='damage_per_turn_player'></span></p>
+			<p>Turns to defeat <i><span id='name_enemy'>Enemy 1</span></i>: <span id='result_player'></span></p>
+		</td style="padding-bottom: 1em;">
+		<td>
+			<center><b><span id='name_enemy'>Enemy 1</th></b></center>
+			<p>Expected damage: <span id='damage_enemy'></span></p>
+			<p>Chance to hit: <span id='chance_enemy'></span></p>
+			<p>Damage inflicted per turn: <span id='damage_per_turn_enemy'></span></p>
+			<p>Turns to defeat <i><span id='name_player'>Player</span></i>: <span id='result_enemy'></span></p>
+		</td>
+	</tr>
+	</tbody></table>
+</div>
+
+<div id='missile_against_target' class='container'>
+	<h1>Missile against target</h1>
+	<p>Calculate the damage inflicted by a missile against a target<p>
+	<table><tbody>
+		<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /></td></tr>
+		<tr><td>DEX <a href='#' title='Bonus to missile fire Hit rolls, Armor Class'>?</a></td><td><input type='number' id='dex' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_dex'>0</span></td></tr>
+		<tr><td>Magic bonus</td><td><input type='number' id='magic_bonus' value='0'/></td></tr>
+		<tr><td>Target distance</td><td>
+			<select id='range'>
+			<option value='1'>Short</option>
+			<option value='0' selected>Medium</option>
+			<option value='-1'>Long</option>
+			</select>
+		</td></tr>
+		<tr><td>Target cover</td><td>
+			<select id='cover'>
+			<option value='0'>None</option>
+			<option value='1'>Partial</option>
+			<option value='2'>Partial+</option>
+			<option value='3'>Partial++</option>
+			<option value='4'>Full</option>
+			</select>
+		</td></tr>
+		<tr><td>Saving throw</td><td><input type='number' id='saving_throw' value='10'/> <label><input type='checkbox' id='no_saving_throw' onchange='document.querySelector("#attack_on_platoon").querySelector("#saving_throw").disabled=this.checked;' />No saving throw</label></td></tr>
+		<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
+	</tbody></table>
+	<p><input class="json-file-upload" target='missile_against_target' type="file" /> <button onclick='exportJSON("missile_against_target")'>Export JSON</button><input id='name' placeholder='Name'></input></p>
+	<p><button onclick='calculate_missile_against_target();'>Calculate</button></p>
+
+	<p>Damage inflicted: <span id='result'></span></p>
+</div>
+
+<div id='attack_on_platoon' class='container'>
+	<h1>How many survivors?</h1>
+	<p>How many survivors after an attack on a platoon of <input type='number' id='units' value='1'/> units?<p>
+	<table><tbody>
+	<tr>
+		<th>Attack</th>
+		<th>Platoon</th>
+	</tr><tr>
+		<td>
+			<table><tbody>
+				<tr><td>Weapon</td><td><input type='number' id='weapon_number_of_dice' value='1'/>d<input type='number' id='weapon_dice_sides' value='6' /></td></tr>
+				<!--<tr><td>TAC0 <a href='#' title='Dice required to hit enemy with AC=0 (lower is better)'>?</a></td><td><input type='number' id='tac0' value='5'/> <label><input type='checkbox' id='always_hit' onchange='document.querySelector("#attack_on_platoon").querySelector("#tac0").disabled=this.checked;' />Always hit</label></td></tr>-->
+				<tr><td>Magic bonus</td><td><input type='number' id='magic_bonus' value='0'/></td></tr>
+				<tr><td>Target distance</td><td>
+					<select id='range'>
+					<option value='1'>Short</option>
+					<option value='0' selected>Medium</option>
+					<option value='-1'>Long</option>
+					</select>
+				</td></tr>
+				<tr><td>Target cover</td><td>
+					<select id='cover'>
+					<option value='0'>None</option>
+					<option value='1'>Partial</option>
+					<option value='2'>Partial+</option>
+					<option value='3'>Partial++</option>
+					<option value='4'>Full</option>
+					</select>
+				</td></tr>
+				<tr><th>Ability scores</th><td></td></tr>
+				<tr><td>DEX <a href='#' title='Bonus to missile fire Hit rolls, Armor Class'>?</a></td><td><input type='number' id='dex' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_dex'>0</span></td></tr>
+			</tbody></table>
+		</td>
+		<td>
+			<table><tbody>
+				<tr><td>Level</td><td><input type='number' id='level' value='5'/></td></tr>
+				<!--<tr><td>AC <a href='#' title='Chance to evade hits (lower is better)'>?</a></td><td><input type='number' id='ac' max='9' value='5'/> chance to evade hits (lower is better)</td></tr>-->
+				<tr><td>Saving throw</td><td><input type='number' id='saving_throw' value='10'/> <label><input type='checkbox' id='no_saving_throw' onchange='document.querySelector("#attack_on_platoon").querySelector("#saving_throw").disabled=this.checked;' />No saving throw</label></td></tr>
+				<tr><td>Protection</td><td><input type='number' id='protection' value='0'/></td></tr>
+				<tr><td><b>Ability scores</b></td><td></td></tr>
+				<tr><td>CON <a href='#' title='Bonus to Hit point rolls'>?</a></td><td><input type='number' id='con' min='3' max='18' value='10' onchange='document.querySelector("#bonus_"+this.id).innerHTML=calculate_bonus(this.value);'/> Bonus: <span id='bonus_con'>0</span></td></tr>
+			</tbody></table>
+		</td>
+	</tr>
+	</tbody></table>
+	<p><input class="json-file-upload" target='attack_on_platoon' type="file" /> <button onclick='exportJSON("attack_on_platoon")'>Export JSON</button><input id='name' placeholder='Name'></input></p>
+	<p><button onclick='calculate_attack_on_platoon();'>Calculate</button></p>
+
+	<p>Damage per unit: <span id='damage'></span></p>
+	<p>Result: <span id='result'></span></p>
+</div>
+
+<script type="text/javascript" src="utils.js"></script></body>
+<script type="text/javascript" src="calculators.js"></script></body>
+<script type="text/javascript" src="json.js"></script></body>
+<script type="text/javascript" src="addColumnAvsB.js"></script></body>
+</html>
